@@ -1,0 +1,18 @@
+body {
+	background-color: #fbfbfb;
+}
+.nav-active {
+	background-color: #008DB7;
+}
+.header-color {
+	background-color: #2E4357;
+	border: none !important;
+}
+.header-color>li>a {
+	color: white !important;
+}
+
+.header-color>li>a:HOVER {
+	background-color: #eee !important;
+	color: black !important;
+}
