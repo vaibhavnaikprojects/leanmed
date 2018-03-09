@@ -22,7 +22,7 @@
 									<span class="input-group-addon">
 										<span class="glyphicon glyphicon-pencil"></span>
 									</span>
-									<input type="text" class="form-control" name="password" placeholder="Password"  required="required"/> 
+									<input type="password" class="form-control" name="password" placeholder="Password"  required="required"/> 
 								</div>
 							</div>
 						</div>

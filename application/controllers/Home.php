@@ -5,7 +5,7 @@
 			$this->load->view('templates/header',$data);
 			$this->load->view('templates/nav');
 			$user=$this->session->userdata('user');
-			data['items']=$this->inventory_model->get_items($user);
+			$data['items']=$this->inventory_model->get_items($user);
 			$this->load->view('pages/home',$data);
 			$this->load->view('templates/footer');
 		}

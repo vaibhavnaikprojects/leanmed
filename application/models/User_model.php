@@ -9,7 +9,7 @@
 			return $query -> result_array();
 		}
 		public function getHouse($houseId){
-			$query = $this->db->get_where('houses',array('houseId'=> $houseId);
+			$query = $this->db->get_where('houses',array('houseId'=> $houseId));
 			return $query -> row_array();
 		}
 		public function registerUser($form_data){
@@ -19,28 +19,35 @@
 			else{
 				if($form_data['userType']==1){
 					 $data = array(
-					 	'emailId'=>$form_data['userType'],
+					 	'emailId'=>$form_data['emailId'],
 					 	'password'=>md5($form_data['password']),
 					 	'userType'=>$form_data['userType'],
 					 );
 					 $this->db->insert('users',$data);
-					 $userId = $this->db->insert_id();
 					 $houseData= array(
 					 	'houseName'=>$form_data['houseName'],
 					 	'houseDesc'=>$form_data['houseDesc'],
-					 	'houseKey'=>generateKey(),
-					 	'admin'=>$userId
+					 	'houseKey'=>$this->generateKey(),
+					 	'admin'=>$form_data['emailId']
 					 );
 					$this->db->insert('houses',$houseData);
 					$houseId = $this->db->insert_id();
-					$this->db->where('userId', $userId);
+					$this->db->where('emailId', $form_data['emailId']);
 					$userData=array('houseId'=>$houseId);
-					$this->db->update('users', $houseId);
+					$this->db->update('users', $userData);
+					return "Registeration Successful";
 				}
 				else{
 					$house=getHouse($form_data['houseId']);
 					if($house!='' && $house['houseKey']==$form_data['houseKey']){
-
+						$data = array(
+					 	'emailId'=>$form_data['userType'],
+					 	'password'=>md5($form_data['password']),
+					 	'userType'=>$form_data['userType'],
+					 	'houseId' =>$form_data['houseId']
+					 	);
+					 	$this->db->insert('users',$data);
+					 	return "Registeration Successful";
 					}
 					else if($house!='')
 						return "Invalid House Id";

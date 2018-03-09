@@ -6,7 +6,7 @@
 			$this->load->view('pages/register');
 			$this->load->view('templates/footer');
 		}
-		public function register(){
+		public function registerUser(){
 			$form_data = $this->input->post();
 			$message = $this->user_model->registerUser($form_data);
 			$this->session->set_flashdata("message",$message);
