@@ -6,4 +6,7 @@ class Login extends CI_Controller {
 		$this->load->view('pages/index');
 		$this->load->view('templates/footer');
 	}
+	public function logout(){
+		$this->session->unset_userdata('user');
+	}
 }

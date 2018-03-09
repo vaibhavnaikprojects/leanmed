@@ -5,14 +5,14 @@
 			<div class="panel panel-primary">
 				<div class="panel-heading">Login</div>
 				<div class="panel-body">
-					<form class="form-horizontal">
+					<form class="form-horizontal" action="home/login" method="post">
 						<div class="form-group">
 							<div class="col-sm-12">
 								<div class='input-group'>
 									<span class="input-group-addon">
 										<span class="glyphicon glyphicon-user"></span>
 									</span>
-									<input type="text" class="form-control" name="emailId" placeholder="Email" /> 
+									<input type="email" class="form-control" name="emailId" placeholder="Email" required="required" /> 
 								</div>
 							</div>
 						</div>
@@ -22,17 +22,21 @@
 									<span class="input-group-addon">
 										<span class="glyphicon glyphicon-pencil"></span>
 									</span>
-									<input type="text" class="form-control" name="password" placeholder="Password" /> 
+									<input type="text" class="form-control" name="password" placeholder="Password"  required="required"/> 
 								</div>
 							</div>
 						</div>
 						<div class="form-group">
 							<div class="col-sm-8">
-								<a href="register.html">New User? Register</a>
+								<h5><?php echo $this->session->flashdata('message'); ?></h5>
 							</div>
 							<div class="col-sm-4 text-right">
-								<button type="submit" class="btn btn-primary">Submit</button>
+								<button type="submit" class="btn btn-primary">Login</button>
 							</div>
+						</div>
+						<div class="col-sm-12 text-center">
+							<a href="register">Forgot Password?</a><br/>
+							<a href="register">New User? Register</a>
 						</div>
 					</form>
 				</div>
