@@ -35,7 +35,7 @@
 							</div>
 						</div>
 						<div class="col-sm-12 text-center">
-							<a href="register">Forgot Password?</a><br/>
+							<a href="forgot">Forgot Password?</a><br/>
 							<a href="register">New User? Register</a>
 						</div>
 					</form>

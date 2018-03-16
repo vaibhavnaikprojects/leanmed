@@ -11,12 +11,14 @@
       </div>
       <div id="navbar-header-app" class="navbar-collapse collapse">
         <ul id="header-navbar" class="nav navbar-nav navbar-left header-color">
-          <li id="lookupHeader"><a href="home" style="text-decoration: none; color: white"><i class="fa fa-car"></i> Look Up</a></li>
-          <li id="inventoryHeader"><a href="inventory" style="text-decoration: none; color: white"><i class="fa fa-truck"></i> Inventory</a></li>
-          <li id="adminHeader"><a href="admin" style="text-decoration: none; color: white"><i class="fa fa-search"></i> Admin</a></li>
-          <li id="aboutHeader"><a href="about" style="text-decoration: none; color: white"><i class="fa fa-book"></i> About</a></li>
+          <li id="lookupHeader"><a href="home" style="text-decoration: none; color: white"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Look Up</a></li>
+          <li id="inventoryHeader"><a href="inventory" style="text-decoration: none; color: white"><span class="glyphicon glyphicon-book" aria-hidden="true"></span> Inventory</a></li>
+          <li id="adminHeader"><a href="admin" style="text-decoration: none; color: white"><span class="glyphicon glyphicon-asterisk" aria-hidden="true"></span> Admin</a></li>
+          <li id="aboutHeader"><a href="about" style="text-decoration: none; color: white"><span class="glyphicon glyphicon-info-sign"></span> About</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
+          <li id="adminHeader"><a href="#" style="text-decoration: none; color: white"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> <?= $this->session->userdata('user')['emailId']?></a></li>
+          <li id="logoutHeader"><a href="home/logout" style="text-decoration: none; color: white"><span class="glyphicon glyphicon-off" aria-hidden="true"></span> Logout</a></li>
         </ul>
       </div>
     </div>

@@ -6,6 +6,7 @@ $route['inventory'] = 'inventory/index';
 $route['admin'] = 'admin/index';
 $route['about'] = 'about/index';
 $route['register'] = 'register/index';
+$route['forgot'] = 'forgot/index';
 $route['default_controller'] = 'login/index';
 $route['(:any)']='pages/view/$1';
 $route['404_override'] = '';

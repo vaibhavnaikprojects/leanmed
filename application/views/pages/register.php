@@ -10,6 +10,16 @@
 							<div class="col-sm-12">
 								<div class='input-group'>
 									<span class="input-group-addon">
+										<span class="glyphicon glyphicon-user"></span>
+									</span>
+									<input type="text" class="form-control" name="userName" placeholder="User Name"  required="required"/> 
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-sm-12">
+								<div class='input-group'>
+									<span class="input-group-addon">
 										<span class="glyphicon glyphicon-envelope"></span>
 									</span>
 									<input type="email" class="form-control" name="emailId" placeholder="Email"  required="required"/> 

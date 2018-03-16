@@ -4,6 +4,10 @@
 			$query = $this->db->get_where('users',array('emailId'=> $email,'password'=> md5($password)));
 			return $query -> row_array();
 		}
+		public function getUserById($email){
+			$query = $this->db->get_where('users',array('emailId'=> $email));
+			return $query -> row_array();
+		}
 		public function getUsersByHouseId($houseId){
 			$query = $this->db->get_where('users',array('houseId'=> $houseId));
 			return $query -> result_array();
@@ -19,6 +23,7 @@
 			else{
 				if($form_data['userType']==1){
 					 $data = array(
+					 	'userName'=>$form_data['userName'],
 					 	'emailId'=>$form_data['emailId'],
 					 	'password'=>md5($form_data['password']),
 					 	'userType'=>$form_data['userType'],
@@ -41,7 +46,8 @@
 					$house=getHouse($form_data['houseId']);
 					if($house!='' && $house['houseKey']==$form_data['houseKey']){
 						$data = array(
-					 	'emailId'=>$form_data['userType'],
+						'userName'=>$form_data['userName'],
+					 	'emailId'=>$form_data['emailId'],
 					 	'password'=>md5($form_data['password']),
 					 	'userType'=>$form_data['userType'],
 					 	'houseId' =>$form_data['houseId']

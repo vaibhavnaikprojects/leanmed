@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 09, 2018 at 09:00 PM
+-- Generation Time: Mar 16, 2018 at 06:47 AM
 -- Server version: 10.1.30-MariaDB
 -- PHP Version: 7.2.1
 
@@ -35,6 +35,14 @@ CREATE TABLE `houses` (
   `houseKey` int(11) NOT NULL,
   `admin` varchar(25) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `houses`
+--
+
+INSERT INTO `houses` (`houseId`, `houseName`, `houseDesc`, `houseKey`, `admin`) VALUES
+(2, '123', 'ccvz', 394213, 'vaibhavsnaik09@gmail.com'),
+(3, 'yo', 'check', 115269, 'prakhar.sapre2610@gmail.c');
 
 -- --------------------------------------------------------
 
@@ -83,11 +91,20 @@ CREATE TABLE `storage` (
 --
 
 CREATE TABLE `users` (
-  `emailId` varchar(25) NOT NULL,
+  `emailId` varchar(200) NOT NULL,
+  `userName` varchar(200) NOT NULL,
   `password` varchar(100) NOT NULL,
   `userType` int(11) NOT NULL,
   `houseId` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`emailId`, `userName`, `password`, `userType`, `houseId`) VALUES
+('prakhar.sapre2610@gmail.c', 'Prakhar Sapre', '202cb962ac59075b964b07152d234b70', 1, 3),
+('vaibhavsnaik09@gmail.com', '', '76d80224611fc919a5d54f0ff9fba446', 1, 2);
 
 --
 -- Indexes for dumped tables
@@ -136,7 +153,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `houses`
 --
 ALTER TABLE `houses`
-  MODIFY `houseId` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `houseId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `items`
