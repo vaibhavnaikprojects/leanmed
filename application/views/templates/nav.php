@@ -7,7 +7,7 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <span class="navbar-brand" style="color: white">Item Finder</span>
+        <a href="home" style="text-decoration: none; color: white"><span class="navbar-brand" style="color: white">Item Finder</span></a>
       </div>
       <div id="navbar-header-app" class="navbar-collapse collapse">
         <ul id="header-navbar" class="nav navbar-nav navbar-left header-color">

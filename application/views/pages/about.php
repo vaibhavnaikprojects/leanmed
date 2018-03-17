@@ -103,4 +103,8 @@
             window.location.hash = e.target.hash;
           });
         });
+        $(document).ready(function() {
+		    $(".nav").find(".nav-active").removeClass("nav-active");
+			$('#aboutHeader').addClass("nav-active");
+		});
     </script>
