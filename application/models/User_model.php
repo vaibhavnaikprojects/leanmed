@@ -8,6 +8,10 @@
 			$query = $this->db->get_where('users',array('emailId'=> $email));
 			return $query -> row_array();
 		}
+		public function getUserByPassword($password){
+			$query = $this->db->get_where('users',array('password'=> $password));
+			return $query -> row_array();
+		}
 		public function getUsersByHouseId($houseId){
 			$query = $this->db->get_where('users',array('houseId'=> $houseId));
 			return $query -> result_array();
@@ -65,11 +69,18 @@
 		public function generateKey(){
 			return rand(100000,999999);
 		}
-		public function sendEmail($from_email,$from_name,$to_email,$subject,$message){
-			$this->email->from($from_email, $from_name); 
+		public function sendEmail($to_email,$subject,$message){
+			$this->email->from('vaibhavsnaik09@gmail.com', 'Item Finder Support'); 
         	$this->email->to($to_email);
         	$this->email->subject($subject); 
-        	$this->email->message($message); 	
+        	$this->email->message($message);
+        	$this->email->set_mailtype("html"); 	
         	$this->email->send();
+		}
+
+		public function forgot_pass($emailId,$password){
+			$this->db->where('emailId', $emailId);
+			$userData=array('password'=>md5($password));
+			$this->db->update('users', $userData);
 		}
 	}
