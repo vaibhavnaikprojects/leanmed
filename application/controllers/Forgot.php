@@ -23,6 +23,7 @@
 		}
 		public function update(){
 			$form_data = $this->input->post();
+			print_r($form_data);
 			$this->user_model->forgot_pass($form_data['emailId'],$form_data['password']);
 			$this->session->set_flashdata("message","Password reset");
 			redirect('login');	

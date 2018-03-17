@@ -19,7 +19,7 @@
 				redirect('home');
 			}
 			else{
-				$this->session->set_flashdata("message",$form_data['emailId'].md5($form_data['password']).$data['user']['userName']);
+				$this->session->set_flashdata("message","Invalid Credentials");
 				redirect('login');
 			}
 		}

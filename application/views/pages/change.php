@@ -5,7 +5,7 @@
 			<div class="panel panel-primary">
 				<div class="panel-heading">Change Password</div>
 				<div class="panel-body">
-					<form class="form-horizontal" action="forgot/update" method="post">
+					<form class="form-horizontal" action="../../forgot/update" method="post">
 						<div class="form-group">
 							<div class="col-sm-12">
 								<div class='input-group'>
