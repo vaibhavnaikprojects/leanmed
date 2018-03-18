@@ -31,6 +31,7 @@
 					 	'emailId'=>$form_data['emailId'],
 					 	'password'=>md5($form_data['password']),
 					 	'userType'=>$form_data['userType'],
+					 	'status'=>'active'
 					 );
 					 $this->db->insert('users',$data);
 					 $houseData= array(
@@ -54,7 +55,8 @@
 					 	'emailId'=>$form_data['emailId'],
 					 	'password'=>md5($form_data['password']),
 					 	'userType'=>$form_data['userType'],
-					 	'houseId' =>$form_data['houseId']
+					 	'houseId' =>$form_data['houseId'],
+					 	'status'=>'active'
 					 	);
 					 	$this->db->insert('users',$data);
 					 	return "Registeration Successful";

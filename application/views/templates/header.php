@@ -9,6 +9,7 @@
 	<link href="<?php echo base_url(); ?>css/bootstrap.css" rel="stylesheet"/>
 	<link href="<?php echo base_url(); ?>css/styles.css" rel="stylesheet"/>
 	<link href="<?php echo base_url(); ?>css/datatables.min.css" rel="stylesheet"/>
+	<link href="<?php echo base_url(); ?>css/ui.jqgrid-bootstrap.css" rel="stylesheet">
 	<title>Item Finder : <?= $title ?></title>
 </head>
 <body>
