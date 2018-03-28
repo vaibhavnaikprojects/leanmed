@@ -1,8 +1,10 @@
 $(document).ready(function () {
 	$("#itemsjqGrid").jqGrid({
 		styleUI : 'Bootstrap',
-		datatype: "local",
-		editurl: 'editItem',
+		datatype: 'json',
+		mtype: 'GET',
+		url : 'inventory/items',
+		editurl: 'inventory/editItem',
 		colModel: [
 		{ label: 'Item Id', name: 'itemId', key: true, width: 200 },
 		{ label: 'Item Name', name: 'itemName', editable: true,editrules : { required: true},edittype:"text"},
@@ -14,7 +16,8 @@ $(document).ready(function () {
 		viewrecords: true,
 		height: 300,
 		rowNum: 20,
-		loadonce: true,
+		loadonce: false,
+		multiselect: true,
 		width: null,
 		shrinkToFit: true,
 		pager: "#itemsjqGridPager"
@@ -46,8 +49,10 @@ $(document).ready(function () {
 
 	$("#storagejqGrid").jqGrid({
 		styleUI : 'Bootstrap',
-		datatype: "local",
-		editurl: 'editStorage',
+		datatype: 'json',
+		mtype: 'GET',
+		url : 'inventory/storage',
+		editurl: 'inventory/editStorage',
 		colModel: [
 		{ label: 'Storage Id', name: 'storageId', key: true},
 		{ label: 'Storage Name', name: 'storageName',editable: true,editrules : { required: true},edittype:"text"},
@@ -56,7 +61,8 @@ $(document).ready(function () {
 		viewrecords: true,
 		height: 300,
 		rowNum: 20,
-		loadonce: true,
+		loadonce: false,
+		multiselect: true,
 		width: null,
 		shrinkToFit: true,
 		pager: "#storagejqGridPager"
@@ -88,8 +94,10 @@ $(document).ready(function () {
 
 	$("#roomsjqGrid").jqGrid({
 		styleUI : 'Bootstrap',
-		datatype: "local",
-		editurl: 'editRoom',
+		datatype: 'json',
+		mtype: 'GET',
+		url : 'inventory/rooms',
+		editurl: 'inventory/editRoom',
 		colModel: [
 		{ label: 'Room Id', name: 'roomId', key: true, width: 300 },
 		{ label: 'Room Name', name: 'roomName', width: 300 ,editable: true,editrules : { required: true},edittype:"text"},
@@ -98,13 +106,14 @@ $(document).ready(function () {
 		viewrecords: true,
 		height: 300,
 		rowNum: 20,
-		loadonce: true,
+		loadonce: false,
+		multiselect: true,
 		width: null,
 		shrinkToFit: true,
 		pager: "#roomsjqGridPager"
 	});
 	$('#roomsjqGrid').navGrid('#roomsjqGridPager',
-		{ edit: true, add: true, del: true, search: true, refresh: false, view: false, position: "left", cloneToTop: true },
+		{ edit: true, add: true, del: true, search: true, refresh: false, view: false, position: "left", cloneToTop: false },
 		{
 			editCaption: "Edit Record",
 			recreateForm: true,
