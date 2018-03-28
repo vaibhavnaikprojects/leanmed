@@ -54,9 +54,13 @@ $(document).ready(function () {
 		url : 'inventory/storage',
 		editurl: 'inventory/editStorage',
 		colModel: [
-		{ label: 'Storage Id', name: 'storageId', key: true},
+		{ label: 'Storage Id', name: 'storageId', key: true,hidden:true},
 		{ label: 'Storage Name', name: 'storageName',editable: true,editrules : { required: true},edittype:"text"},
-		{ label: 'Room', name: 'room',editable: true,editrules : { required: true},edittype:"text"}
+		{ label: 'Storage Description', name: 'storageDesc',editable: true,editrules : { required: true},edittype:"text"},
+		{ label: 'roomId', name: 'roomId',hidden: true},
+		{ label: 'Room', name: 'roomName',editable: true,editrules : { required: true},edittype:"select",editoptions: {
+             value: $rooms
+            }}
 		],
 		viewrecords: true,
 		height: 300,
@@ -99,7 +103,7 @@ $(document).ready(function () {
 		url : 'inventory/rooms',
 		editurl: 'inventory/editRoom',
 		colModel: [
-		{ label: 'Room Id', name: 'roomId', key: true, width: 300 },
+		{ label: 'Room Id', name: 'roomId', key: true, width: 300 ,hidden:true},
 		{ label: 'Room Name', name: 'roomName', width: 300 ,editable: true,editrules : { required: true},edittype:"text"},
 		{ label: 'Room Description', name: 'roomDesc', width: 300 ,editable: true,editrules : { required: true},edittype:"text"}
 		],
