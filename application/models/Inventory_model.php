@@ -7,7 +7,7 @@
 					 	'houseId'=>$form_data['houseId']
 					 );
 			$this->db->insert('rooms',$data);
-			$this->add_log($this->session->userdata('user')['userName'].' added room '.$form_data['roomName'],$this->session->userdata('user')['emailId'],$this->session->userdata('users'));
+			$this->log($this->session->userdata('user')['userName'].' added room '.$form_data['roomName'],$this->session->userdata('user')['emailId'],$this->session->userdata('users'));
 		}
 
 		public function edit_room($form_data){
@@ -17,13 +17,13 @@
 					 	'roomDesc'=>$form_data['roomDesc']
 					 );
 			$this->db->update('rooms',$data);
-			$this->add_log($this->session->userdata('user')['userName'].' edited room details '.$form_data['roomName'],$this->session->userdata('user')['emailId'],$this->session->userdata('users'));
+			$this->log($this->session->userdata('user')['userName'].' edited room details '.$form_data['roomName'],$this->session->userdata('user')['emailId'],$this->session->userdata('users'));
 		}
 
 		public function del_room($form_data){
 			$this->db->where_in('roomId', $form_data['id']);
    			$this->db->delete('rooms');
-   			$this->add_log('',$this->session->userdata('user')['emailId'],$this->session->userdata('users'));
+   			$this->log($this->session->userdata('user')['userName'].' deleted room',$this->session->userdata('user')['emailId'],$this->session->userdata('users'));
 		}
 
 		public function get_rooms($form_data){
@@ -42,12 +42,12 @@
 				if($this->session->userdata('user')['userType']==1){
 					$data['status']='active';
 					$this->db->insert('storage',$data);
-					$this->add_log('',$this->session->userdata('user')['emailId'],$this->session->userdata('users'));
+					$this->log($this->session->userdata('user')['userName'].' added storage '.$form_data['storageName'],$this->session->userdata('user')['emailId'],$this->session->userdata('users'));
 				}
 				else{
 					$data['status']='pending';
 					$this->db->insert('storage',$data);
-					$this->add_log('',$this->session->userdata('user')['emailId'],$this->session->userdata('admin'));
+					$this->log($this->session->userdata('user')['userName'].' wwants to add storage '.$form_data['storageName'],$this->session->userdata('user')['emailId'],$this->session->userdata('admin'));
 				}
 		}
 
@@ -62,12 +62,12 @@
 			if($this->session->userdata('user')['userType']==1){
 					$data['status']='active';
 					$this->db->update('storage',$data);
-					$this->add_log('',$this->session->userdata('user')['emailId'],$this->session->userdata('users'));
+					$this->log($this->session->userdata('user')['userName'].' edited storage '.$form_data['storageName'],$this->session->userdata('user')['emailId'],$this->session->userdata('users'));
 				}
 				else{
 					$data['status']='pending';
 					$this->db->update('storage',$data);
-					$this->add_log('',$this->session->userdata('user')['emailId'],$this->session->userdata('admin'));
+					$this->log($this->session->userdata('user')['userName'].' wants to edit storage '.$form_data['storageName'],$this->session->userdata('user')['emailId'],$this->session->userdata('admin'));
 				}
 		}
 
@@ -75,7 +75,7 @@
 			if($this->session->userdata('user')['userType']==1){
 				$this->db->where_in('storageId', $form_data['id']);
    				$this->db->delete('storage');
-   				$this->add_log('',$this->session->userdata('user')['emailId'],$this->session->userdata('users'));
+   				$this->log('',$this->session->userdata('user')['emailId'],$this->session->userdata('users'));
    			}
 		}
 
@@ -93,47 +93,17 @@
 			return $query -> result_array();
 		}
 		
-
 		public function del_item($form_data,$user){
 			$this->db->where_in('itemId', $form_data['id']);
    			$this->db->delete('items'); 
 		}
 
-
-		public function add_log($log,$userId,$users){
-			$data = array(
-					 	'log'=>$log,
-					 	'userId'=>$userId
-					 );
-			$this->db->insert('logs',$data);
-			$logId = $this->db->insert_id();
-			if (!is_array($users)) {
-				$data = array(
-					 	'logId'=>$logId,
-					 	'emailId'=>$users,
-					 	'status'=>'pending'
-					 );
-				$this->db->insert('logusers',$data);
-				$this->sendEmail($users,$log,$log);	
-			}
-			else{
-				for($i=0;$i<count($users);$i++){
-				$data = array(
-					 	'logId'=>$logId,
-					 	'emailId'=>$users[$i],
-					 	'status'=>'pending'
-					 );
-				$this->db->insert('logusers',$data);
-				$this->sendEmail($users,$log,$log);	
-				}
-			}
-		}
-		public function sendEmail($to_email,$subject,$message){
-			$this->email->from('vaibhavsnaik09@gmail.com', 'Item Finder Support'); 
-        	$this->email->to($to_email);
-        	$this->email->subject($subject); 
-        	$this->email->message($message);
-        	$this->email->set_mailtype("html"); 	
-        	$this->email->send();
+		public function log($log,$userId,$users){
+			$url = base_url()."daemon/add_log";
+			$param = array('log' => $log,
+				'userId' => $userId,
+				'users' => $users
+			);
+			$this->asynclibrary->daemon($url, $param);
 		}
 	}
