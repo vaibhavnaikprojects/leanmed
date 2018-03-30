@@ -1,6 +1,10 @@
 <?php
 	class Inventory extends CI_Controller{
 		public function index(){
+			if($this->session->userdata('user')==""){
+				$this->session->set_flashdata("message",'session expired');
+				redirect('login');
+			}
 			$data['title']= 'Inventory';
 			$data['storagerooms']= $this->storagerooms();
 			$this->load->view('templates/header',$data);
@@ -14,7 +18,16 @@
 		}
 		public function editItem(){
 			$form_data = $this->input->post();
-			print_r($form_data);
+			$form_data['houseId']=$this->session->userdata('user')['houseId'];
+			if($form_data['oper']== 'add')
+				$this->inventory_model->add_item($form_data);
+			elseif ($form_data['oper']== 'edit') 
+				$this->inventory_model->edit_item($form_data);
+			elseif ($form_data['oper']== 'del') {
+				$this->inventory_model->del_item($form_data);
+			}
+			header('Content-Type: application/json');
+			echo json_encode(true);
 		}
 		public function rooms(){
 			$form_data = $this->input->get();

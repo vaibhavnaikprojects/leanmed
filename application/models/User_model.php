@@ -48,7 +48,7 @@
 					return "Registeration Successful";
 				}
 				else{
-					$house=getHouse($form_data['houseId']);
+					$house=$this->getHouse($form_data['houseId']);
 					if($house!='' && $house['houseKey']==$form_data['houseKey']){
 						$data = array(
 						'userName'=>$form_data['userName'],
@@ -84,5 +84,15 @@
 			$this->db->where('emailId', $emailId);
 			$userData=array('password'=>md5($password));
 			$this->db->update('users', $userData);
+		}
+
+		public function get_admin_email($houseId){
+			$query=$this->db->query('select admin "emailId" from houses where houseId='.$houseId);
+			return $query -> row_array();
+		}
+
+		public function get_house_users($houseId){
+			$query=$this->db->query("select emailId from users where houseId=".$houseId);
+			return $query -> result_array();
 		}
 	}
