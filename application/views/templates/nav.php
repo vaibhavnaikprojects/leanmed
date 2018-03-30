@@ -20,7 +20,7 @@
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <li id="activityHeader"><a href="activity" style="text-decoration: none; color: white"><span class="glyphicon glyphicon-th-large"></span> Activity Center</a></li>
-          <li id="adminHeader"><a href="#" style="text-decoration: none; color: white"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> <?= $this->session->userdata('user')['emailId']?></a></li>
+          <li id="userHeader"><a href="#" style="text-decoration: none; color: white"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> <?= $this->session->userdata('user')['emailId']?></a></li>
           <li id="logoutHeader"><a href="home/logout" style="text-decoration: none; color: white"><span class="glyphicon glyphicon-off" aria-hidden="true"></span> Logout</a></li>
         </ul>
       </div>

@@ -21,7 +21,9 @@
 		}
 
 		public function del_room($form_data){
-			$this->db->where_in('roomId', $form_data['id']);
+			print_r($form_data['id']);
+			$arr=array($form_data['id']);
+			$this->db->where_in('roomId', $arr);
    			$this->db->delete('rooms');
    			$this->log($this->session->userdata('user')['userName'].' deleted room',$this->session->userdata('user')['emailId'],$this->session->userdata('users'));
 		}
@@ -73,7 +75,8 @@
 
 		public function del_storage($form_data){
 			if($this->session->userdata('user')['userType']==1){
-				$this->db->where_in('storageId', $form_data['id']);
+				$arr=array($form_data['id']);
+				$this->db->where_in('storageId', $arr);
    				$this->db->delete('storage');
    				$this->log('',$this->session->userdata('user')['emailId'],$this->session->userdata('users'));
    			}

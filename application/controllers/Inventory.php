@@ -46,7 +46,7 @@
 				$this->inventory_model->del_room($form_data);
 			}
 			header('Content-Type: application/json');
-			echo json_encode(true);
+			echo json_encode(false);
 		}
 
 		public function storage(){

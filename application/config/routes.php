@@ -4,6 +4,7 @@ $route['login'] = 'login/index';
 $route['home'] = 'home/index';
 $route['inventory'] = 'inventory/index';
 $route['admin'] = 'admin/index';
+$route['activity'] = 'activity/index';
 $route['about'] = 'about/index';
 $route['register'] = 'register/index';
 $route['forgot'] = 'forgot/index';

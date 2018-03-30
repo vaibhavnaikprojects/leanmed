@@ -95,4 +95,8 @@
 			$query=$this->db->query("select emailId from users where houseId=".$houseId);
 			return $query -> result_array();
 		}
+		public function get_logs(){
+			$query=$this->db->query("select * from logs order by logId desc");
+			return $query -> result_array();
+		}
 	}
