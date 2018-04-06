@@ -32,4 +32,8 @@
 			header('Content-Type: application/json');
 			echo json_encode(true);
 		}
+		public function approvals(){
+			header('Content-Type: application/json');
+			echo json_encode($this->user_model->getApprovalsByHouseId($this->session->userdata('user')['houseId']));
+		}
 	}

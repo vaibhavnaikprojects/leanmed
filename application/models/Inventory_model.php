@@ -46,6 +46,7 @@
 				}
 				else{
 					$data['status']='pending';
+					$data['history']=$this->session->userdata('user')['userName'].' wants to add storage named '.$form_data['storageName'];
 					$this->db->insert('storage',$data);
 					$this->log($this->session->userdata('user')['userName'].' wants to add storage named '.$form_data['storageName'],$this->session->userdata('user')['emailId'],$this->session->userdata('admin'));
 				}
@@ -66,6 +67,7 @@
 				}
 				else{
 					$data['status']='pending';
+					$data['history']=$this->session->userdata('user')['userName'].' wants to edit storage named '.$form_data['storageName'];
 					$this->db->update('storage',$data);
 					$this->log($this->session->userdata('user')['userName'].' wants to edit storage named '.$form_data['storageName'],$this->session->userdata('user')['emailId'],$this->session->userdata('admin'));
 				}

@@ -50,4 +50,27 @@ $(document).ready(function () {
 				return 'Error: ' + data.responseText
 			}
 		});
+
+	$("#approvalsjqGrid").jqGrid({
+		styleUI : 'Bootstrap',
+		datatype: 'json',
+		mtype: 'GET',
+		url : 'admin/approvals',
+		colModel: [
+		{ label: 'email Id', name: 'userId', key: true},
+		{ label: 'Approval', name: 'message'},
+		{ label: 'Actions', name: 'storageId', formatter: actionFormatter}
+		],
+		viewrecords: true,
+		height: 300,
+		rowNum: 20,
+		loadonce: false,
+		multiselect: true,
+		width: null,
+		shrinkToFit: true,
+		pager: "#approvalsjqGridPager"
+	});
+	function actionFormatter(cellvalue, options, rowObject){
+		return '<a href="admin/approve?table='+rowObject.table+'&id='+cellvalue+'&action=decline" class="btn btn-success btn-sm actions"> Approve</a> <a href="admin/approve?table='+rowObject.table+'&id='+cellvalue+'&action=decline" class="btn btn-danger btn-sm actions"> Decline</a>';
+	}
 });

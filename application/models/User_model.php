@@ -122,11 +122,11 @@
 					 );
 			$this->db->insert('users',$data);
 			$this->log($this->session->userdata('user')['userName'].' invited user '.$form_data['userName'].' to the house',$this->session->userdata('user')['emailId'],$this->session->userdata('users'));
-			$house=$this->getHouse($form_data['house_id']);
-			$url = base_url()."daemon/sendEmail";
+			$house=$this->getHouse($form_data['houseId']);
+			$url = base_url()."daemon/send";
 			$param = array(
 				'userId' => $form_data['emailId'],
-				'subject' => 'Item Finder: Admin of house '.$house['houseName'].'has invited you to join the house',
+				'subject' => 'Item Finder: Admin of house '.$house['houseName'].' has invited you to join the house',
 				'message' => 'Please register yourself with the house Id: '.$house['houseId']. ' and house key: '.$house['houseKey']
 			);
 			$this->asynclibrary->daemon($url, $param);
@@ -136,7 +136,7 @@
 		public function del_user($form_data){
 			$this->db->where_in('emailId', explode(",",$form_data['id']));
    			$this->db->delete('users');
-   			$this->log($this->session->userdata('user')['userName'].' removed the user from the house',$this->session->userdata('user')['emailId'],$this->session->userdata('users'));
+   			$this->log($this->session->userdata('user')['userName'].' removed the user '.$form_data['id'].' from the house',$this->session->userdata('user')['emailId'],$this->session->userdata('users'));
 		}
 
 		public function log($log,$userId,$users){
@@ -146,5 +146,22 @@
 				'users' => $users
 			);
 			$this->asynclibrary->daemon($url, $param);
+		}
+
+		public function getApprovalsByHouseId($houseId){
+			$approval=array();
+			$query=$this->db->query("select * from storage where roomId in (select roomId from rooms where houseId=".$houseId.") and status='pending' order by storageId desc");
+			$approval1=$query -> result_array();
+			for($x=0;$x<count($approval1);$x++){
+				$test = array('message' => $approval1[$x]['history'], 'userId' =>$approval1[$x]['userId'], 'storageId' =>$approval1[$x]['storageId'],'table' => 'storage');
+				array_push($approval, $test);
+			}
+			$query=$this->db->query("select i.* from items i,storage s,rooms r where i.storageId=s.storageId and s.roomId=r.roomId and r.houseId=".$houseId." and i.status='pending' order by itemId desc");
+			$approval2=$query -> result_array();
+			for($x=0;$x<count($approval2);$x++){/*
+				$test = array('message' => $approval2[$x]['history'], 'userId' =>$approval2[$x]['userId'], 'storageId' =>$approval2[$x]['storageId'],'table' => 'storage');
+				array_push($approval, $test);*/
+			}
+			return $approval;
 		}
 	}

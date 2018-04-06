@@ -9,27 +9,8 @@
 				<div id="approvals" class="tab-pane fade in active">
 					<div class="panel panel-primary">
 						<div class="panel-body">
-							<table id="approvalsTable" class="table table-striped table-bordered" style="width:100%">
-								<thead>
-						            <tr>
-						                <th>Item</th>
-						                <th>Storage Place</th>
-						                <th>Room</th>
-						                <th>Updated By</th>
-						                <th>Actions</th>
-						            </tr>
-						        </thead>
-						        <tbody>
-
-						        	<tr>
-						        		<td></td>
-						        		<td></td>
-						        		<td></td>
-						        		<td></td>
-						        		<td></td>
-						        	</tr>
-						        </tbody>
-							</table>
+							<table id="approvalsjqGrid" style="width:100%"></table>
+		    				<div id="approvalsjqGridPager"></div>
 						</div>
 					</div>
 				</div>
