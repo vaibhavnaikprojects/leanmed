@@ -57,6 +57,8 @@ $(document).ready(function () {
 		{ label: 'Storage Id', name: 'storageId', key: true,hidden:true},
 		{ label: 'Storage Name', name: 'storageName',editable: true,editrules : { required: true},edittype:"text"},
 		{ label: 'Storage Description', name: 'storageDesc',editable: true,editrules : { required: true},edittype:"text"},
+		{ label: 'Last Updated By', name: 'userId'},
+		{ label: 'status', name: 'status'},
 		{ label: 'roomId', name: 'roomId',hidden: true},
 		{ label: 'Room', name: 'roomName',editable: true,editrules : { required: true},edittype:"select",editoptions: {
              value: $rooms

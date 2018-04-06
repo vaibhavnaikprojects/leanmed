@@ -16,13 +16,20 @@
 		public function login(){
 			$data['title']= 'Home';
 			$form_data = $this->input->post();
+			if($form_data['emailId']=='' || $form_data['password']==''){
+				$this->session->set_flashdata("message","Required Fields");
+				redirect('login');
+			}
 			$data['user'] = $this->user_model->getUser($form_data['emailId'],$form_data['password']);
-			print_r($form_data['emailId'].$form_data['password'].$data['user']['userName']);
-			if($data['user']!=""){
+			if($user!='' && $user['status']=='pending'){
+				$this->session->set_flashdata("message","Register first");
+				redirect('login');
+			}
+			elseif($data['user']!=""){
 				$this->session->set_userdata('user', $data['user']);
-				if($data['user']['userType']!=1){
+				if($data['user']['userType'] == 2){
 					$adminId=$this->user_model->get_admin_email($data['user']['houseId']);
-					$this->session->set_userdata('admin', $adminId['admin']);
+					$this->session->set_userdata('admin', $adminId['emailId']);
 				}
 				$users=$this->user_model->get_house_users($data['user']['houseId']);
 				$result = array();
@@ -30,7 +37,6 @@
 					$result[$x]=$users[$x]['emailId'];
 				}
 				$this->session->set_userdata('users', $result);
-
 				redirect('home');
 			}
 			else{

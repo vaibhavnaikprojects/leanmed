@@ -15,4 +15,21 @@
 			$this->load->view('pages/admin');
 			$this->load->view('templates/footer');
 		}
+		public function users(){
+			header('Content-Type: application/json');
+			echo json_encode($this->user_model->getUsersByHouseId($this->session->userdata('user')['houseId']));
+		}
+		public function editUser(){
+			$form_data = $this->input->post();
+			$form_data['houseId']=$this->session->userdata('user')['houseId'];
+			if($form_data['oper']== 'add')
+				$this->user_model->add_user($form_data);
+			elseif ($form_data['oper']== 'edit') 
+				$this->user_model->edit_user($form_data);
+			elseif ($form_data['oper']== 'del') {
+				$this->user_model->del_user($form_data);
+			}
+			header('Content-Type: application/json');
+			echo json_encode(true);
+		}
 	}

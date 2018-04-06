@@ -72,16 +72,16 @@
 										<div class="col-lg-2">
 											<h4>UTA ID</h4>
 											<h5>1001518044</h5>
-											<h5>1001</h5>
-											<h5>1001</h5>
-											<h5>1001</h5>
+											<h5>1001514586</h5>
+											<h5>1001554290</h5>
+											<h5>1001453343</h5>
 										</div>
 										<div class="col-lg-2">
 											<h4>Email</h4>
 											<h5><a href="mailto:vaibhav.naik@mavs.uta.edu">vaibhav.naik@mavs.uta.edu</a></h5>
-											<h5><a href="mailto:@mavs.uta.edu">@mavs.uta.edu</a></h5>
-											<h5><a href="mailto:@mavs.uta.edu">@mavs.uta.edu</a></h5>
-											<h5><a href="mailto:@mavs.uta.edu">@mavs.uta.edu</a></h5>
+											<h5><a href="mailto:@mavs.uta.edu">prakhar.sapre@mavs.uta.edu</a></h5>
+											<h5><a href="mailto:@mavs.uta.edu">kaustubhsanjiv.agnihotri@mavs.uta.edu</a></h5>
+											<h5><a href="mailto:@mavs.uta.edu">mansoor.abbas@mavs.uta.edu</a></h5>
 										</div>
 									</div>
 								</div>

@@ -7,7 +7,7 @@
 					 	'houseId'=>$form_data['houseId']
 					 );
 			$this->db->insert('rooms',$data);
-			$this->log($this->session->userdata('user')['userName'].' added room '.$form_data['roomName'],$this->session->userdata('user')['emailId'],$this->session->userdata('users'));
+			$this->log($this->session->userdata('user')['userName'].' added room named '.$form_data['roomName'],$this->session->userdata('user')['emailId'],$this->session->userdata('users'));
 		}
 
 		public function edit_room($form_data){
@@ -17,15 +17,13 @@
 					 	'roomDesc'=>$form_data['roomDesc']
 					 );
 			$this->db->update('rooms',$data);
-			$this->log($this->session->userdata('user')['userName'].' edited room details '.$form_data['roomName'],$this->session->userdata('user')['emailId'],$this->session->userdata('users'));
+			$this->log($this->session->userdata('user')['userName'].' edited room named '.$form_data['roomName'],$this->session->userdata('user')['emailId'],$this->session->userdata('users'));
 		}
 
 		public function del_room($form_data){
-			print_r($form_data['id']);
-			$arr=array($form_data['id']);
-			$this->db->where_in('roomId', $arr);
+			$this->db->where_in('roomId', explode(",",$form_data['id']));
    			$this->db->delete('rooms');
-   			$this->log($this->session->userdata('user')['userName'].' deleted room',$this->session->userdata('user')['emailId'],$this->session->userdata('users'));
+   			$this->log($this->session->userdata('user')['userName'].' deleted a room',$this->session->userdata('user')['emailId'],$this->session->userdata('users'));
 		}
 
 		public function get_rooms($form_data){
@@ -44,12 +42,12 @@
 				if($this->session->userdata('user')['userType']==1){
 					$data['status']='active';
 					$this->db->insert('storage',$data);
-					$this->log($this->session->userdata('user')['userName'].' added storage '.$form_data['storageName'],$this->session->userdata('user')['emailId'],$this->session->userdata('users'));
+					$this->log($this->session->userdata('user')['userName'].' added storage named '.$form_data['storageName'],$this->session->userdata('user')['emailId'],$this->session->userdata('users'));
 				}
 				else{
 					$data['status']='pending';
 					$this->db->insert('storage',$data);
-					$this->log($this->session->userdata('user')['userName'].' wwants to add storage '.$form_data['storageName'],$this->session->userdata('user')['emailId'],$this->session->userdata('admin'));
+					$this->log($this->session->userdata('user')['userName'].' wants to add storage named '.$form_data['storageName'],$this->session->userdata('user')['emailId'],$this->session->userdata('admin'));
 				}
 		}
 
@@ -64,26 +62,25 @@
 			if($this->session->userdata('user')['userType']==1){
 					$data['status']='active';
 					$this->db->update('storage',$data);
-					$this->log($this->session->userdata('user')['userName'].' edited storage '.$form_data['storageName'],$this->session->userdata('user')['emailId'],$this->session->userdata('users'));
+					$this->log($this->session->userdata('user')['userName'].' edited storage named '.$form_data['storageName'],$this->session->userdata('user')['emailId'],$this->session->userdata('users'));
 				}
 				else{
 					$data['status']='pending';
 					$this->db->update('storage',$data);
-					$this->log($this->session->userdata('user')['userName'].' wants to edit storage '.$form_data['storageName'],$this->session->userdata('user')['emailId'],$this->session->userdata('admin'));
+					$this->log($this->session->userdata('user')['userName'].' wants to edit storage named '.$form_data['storageName'],$this->session->userdata('user')['emailId'],$this->session->userdata('admin'));
 				}
 		}
 
 		public function del_storage($form_data){
 			if($this->session->userdata('user')['userType']==1){
-				$arr=array($form_data['id']);
-				$this->db->where_in('storageId', $arr);
+				$this->db->where_in('storageId', explode(",",$form_data['id']));
    				$this->db->delete('storage');
-   				$this->log('',$this->session->userdata('user')['emailId'],$this->session->userdata('users'));
+   				$this->log($this->session->userdata('user')['userName']. 'deleted storage',$this->session->userdata('user')['emailId'],$this->session->userdata('users'));
    			}
 		}
 
 		public function get_storage($form_data){
-			$query = $this->db->query('select s.storageId,s.storageName,s.storageDesc,r.roomId,r.roomName from storage s,rooms r where s.roomId in (select r.roomId from rooms where houseId='.$form_data['houseId'].') and s.roomId=r.roomId');
+			$query = $this->db->query('select s.storageId,s.storageName,s.storageDesc,s.userId,s.status,r.roomId,r.roomName from storage s,rooms r where s.roomId in (select r.roomId from rooms where houseId='.$form_data['houseId'].') and s.roomId=r.roomId');
 			return $query -> result_array();
 		}
 		

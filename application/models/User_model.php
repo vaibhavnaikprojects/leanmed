@@ -22,8 +22,20 @@
 		}
 		public function registerUser($form_data){
 			$query = $this->db->get_where('users',array('emailId'=> $form_data['emailId']));
-			if($query->num_rows() > 0)
+			$user= $query -> row_array();
+			if($user!='' && $user['status']=='pending'){
+				$this->db->where('emailId', $form_data['emailId']);
+				$data = array(
+					 	'userName'=>$form_data['userName'],
+					 	'password'=>md5($form_data['password']),
+					 	'userType'=>$form_data['userType'],
+					 	'status'=>'active'
+					 );
+					 $this->db->update('users',$data);
+			}
+			elseif ($user!='') {
 				return "user already exist";
+			}
 			else{
 				if($form_data['userType']==1){
 					 $data = array(
@@ -98,5 +110,41 @@
 		public function get_logs(){
 			$query=$this->db->query("select * from logs order by logId desc");
 			return $query -> result_array();
+		}
+
+		public function add_user($form_data){
+			$data = array(
+					 	'emailId'=>$form_data['emailId'],
+					 	'userName'=>$form_data['userName'],
+					 	'userType'=>2,
+					 	'houseId'=>$form_data['houseId'],
+					 	'status'=>'pending',
+					 );
+			$this->db->insert('users',$data);
+			$this->log($this->session->userdata('user')['userName'].' invited user '.$form_data['userName'].' to the house',$this->session->userdata('user')['emailId'],$this->session->userdata('users'));
+			$house=$this->getHouse($form_data['house_id']);
+			$url = base_url()."daemon/sendEmail";
+			$param = array(
+				'userId' => $form_data['emailId'],
+				'subject' => 'Item Finder: Admin of house '.$house['houseName'].'has invited you to join the house',
+				'message' => 'Please register yourself with the house Id: '.$house['houseId']. ' and house key: '.$house['houseKey']
+			);
+			$this->asynclibrary->daemon($url, $param);
+		}
+		public function edit_user($form_data){
+		}
+		public function del_user($form_data){
+			$this->db->where_in('emailId', explode(",",$form_data['id']));
+   			$this->db->delete('users');
+   			$this->log($this->session->userdata('user')['userName'].' removed the user from the house',$this->session->userdata('user')['emailId'],$this->session->userdata('users'));
+		}
+
+		public function log($log,$userId,$users){
+			$url = base_url()."daemon/add_log";
+			$param = array('log' => $log,
+				'userId' => $userId,
+				'users' => $users
+			);
+			$this->asynclibrary->daemon($url, $param);
 		}
 	}

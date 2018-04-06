@@ -20,6 +20,7 @@
 						            </tr>
 						        </thead>
 						        <tbody>
+
 						        	<tr>
 						        		<td></td>
 						        		<td></td>
@@ -35,22 +36,8 @@
 				<div id="users" class="tab-pane fade">
 					<div class="panel panel-primary">
 						<div class="panel-body">
-							<table id="usersTable" class="table table-striped table-bordered" style="width:100%">
-								<thead>
-						            <tr>
-						                <th>User Name</th>
-						                <th>Email ID</th>
-						                <th>Actions</th>
-						            </tr>
-						        </thead>
-						        <tbody>
-						        	<tr>
-						        		<td></td>
-						        		<td></td>
-						        		<td></td>
-						        	</tr>
-						        </tbody>
-							</table>
+							<table id="usersjqGrid" style="width:100%"></table>
+		    				<div id="usersjqGridPager"></div>
 						</div>
 					</div>
 				</div>
@@ -61,6 +48,8 @@
 	<script type="text/javascript" src="<?php echo base_url(); ?>js/jquery-3.3.1.min.js"></script>
 	<script type="text/javascript" src="<?php echo base_url(); ?>js/bootstrap.min.js"></script>	
 	<script type="text/javascript" src="<?php echo base_url(); ?>js/datatables.min.js"></script>
+	<script type="text/javascript" src="<?php echo base_url(); ?>js/grid.locale-en.js"></script>
+    <script type="text/javascript" src="<?php echo base_url(); ?>js/jquery.jqGrid.js"></script>
 	<script type="text/javascript">
         $(function() {
           var hash = document.location.hash;
@@ -72,9 +61,12 @@
           });
         });
         $(document).ready(function() {
-		    $('#usersTable').DataTable();
 		    $('#approvalsTable').DataTable();
+		    $.jgrid.defaults.width = 780;
+			$.jgrid.defaults.responsive = true;
+			$.jgrid.defaults.styleUI = 'Bootstrap';
 		    $(".nav").find(".nav-active").removeClass("nav-active");
 			$('#adminHeader').addClass("nav-active");
 		});
     </script>
+    <script type="text/javascript" src="<?php echo base_url(); ?>js/admin.js"></script>
