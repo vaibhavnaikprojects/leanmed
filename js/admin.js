@@ -1,3 +1,14 @@
+function action(table,cellvalue,action){
+	console.log(table+" "+cellvalue+" "+action);
+	if (action=='approve') {
+		
+	}	
+	else{
+
+	}
+	$('#approvalsjqGrid').trigger( 'reloadGrid' );
+
+}
 $(document).ready(function () {
 	$("#usersjqGrid").jqGrid({
 		styleUI : 'Bootstrap',
@@ -59,18 +70,19 @@ $(document).ready(function () {
 		colModel: [
 		{ label: 'email Id', name: 'userId', key: true},
 		{ label: 'Approval', name: 'message'},
-		{ label: 'Actions', name: 'storageId', formatter: actionFormatter}
-		],
+		{ label: 'Actions', name: 'storageId', formatter: actionFormatter}],
 		viewrecords: true,
 		height: 300,
 		rowNum: 20,
 		loadonce: false,
-		multiselect: true,
 		width: null,
 		shrinkToFit: true,
 		pager: "#approvalsjqGridPager"
 	});
+	
 	function actionFormatter(cellvalue, options, rowObject){
-		return '<a href="admin/approve?table='+rowObject.table+'&id='+cellvalue+'&action=decline" class="btn btn-success btn-sm actions"> Approve</a> <a href="admin/approve?table='+rowObject.table+'&id='+cellvalue+'&action=decline" class="btn btn-danger btn-sm actions"> Decline</a>';
+		return "<button class='btn btn-success btn-sm actions' onclick=action('"+rowObject.table+"','"+cellvalue+"','approve')> Approve</button> <button class='btn btn-danger btn-sm actions'  onclick=action('"+rowObject.table+"','"+cellvalue+"','reject')> Decline</button>";
 	}
+	
 });
+
