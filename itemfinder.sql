@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 08, 2018 at 01:19 AM
+-- Generation Time: Apr 08, 2018 at 01:33 AM
 -- Server version: 10.1.30-MariaDB
 -- PHP Version: 7.2.1
 
@@ -58,6 +58,63 @@ CREATE TABLE `items` (
   `updatedBy` varchar(100) NOT NULL,
   `storageId` int(11) NOT NULL,
   `status` varchar(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `logs`
+--
+
+CREATE TABLE `logs` (
+  `logId` int(11) NOT NULL,
+  `log` varchar(200) NOT NULL,
+  `createdDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `userId` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `logs`
+--
+
+INSERT INTO `logs` (`logId`, `log`, `createdDate`, `userId`) VALUES
+(7, '', '2018-03-30 05:51:52', 'vaibhavsnaik09@gmail.com'),
+(8, 'Vaibhav Naik added room 1', '2018-03-30 07:00:14', 'vaibhavsnaik09@gmail.com'),
+(9, 'Vaibhav Naik added room this time it works', '2018-03-30 07:01:37', 'vaibhavsnaik09@gmail.com'),
+(10, 'Vaibhav Naik deleted room', '2018-03-30 07:19:30', 'vaibhavsnaik09@gmail.com'),
+(11, 'Vaibhav Naik deleted room', '2018-03-30 07:20:26', 'vaibhavsnaik09@gmail.com'),
+(12, 'Vaibhav Naik deleted room', '2018-03-30 07:22:28', 'vaibhavsnaik09@gmail.com'),
+(13, 'Vaibhav Naik deleted room', '2018-03-30 07:34:11', 'vaibhavsnaik09@gmail.com'),
+(14, 'Mansoor Abbas Ali wwants to add storage bottle', '2018-03-30 22:57:22', 'mansoor.abbas@mavs.uta.edu'),
+(15, 'Vaibhav Naik added room gallery', '2018-03-30 23:00:33', 'vaibhavsnaik09@gmail.com'),
+(16, 'kaustubh Agnihotri wwants to add storage chech', '2018-03-30 23:37:11', 'kaustubhsanjiv.agnihotri@mavs.uta.edu'),
+(17, 'Vaibhav Naik added room check', '2018-03-30 23:39:02', 'vaibhavsnaik09@gmail.com'),
+(18, 'Prakhar Sapre wwants to add storage test', '2018-03-31 04:12:04', 'prakhar.sapre2610@gmail.com'),
+(19, 'Prakhar Sapre wwants to add storage Testing', '2018-03-31 04:20:38', 'prakhar.sapre2610@gmail.com'),
+(20, '', '2018-03-31 04:27:34', 'vaibhavsnaik09@gmail.com'),
+(21, 'Vaibhav Naik deleted a room', '2018-04-05 22:59:48', 'vaibhavsnaik09@gmail.com'),
+(22, 'Vaibhav Naik removed the user from the house', '2018-04-06 05:35:08', 'vaibhavsnaik09@gmail.com'),
+(23, 'Vaibhav Naik invited user to the house', '2018-04-06 05:36:30', 'vaibhavsnaik09@gmail.com'),
+(24, 'Vaibhav Naik removed the user mansoor.abbas@mavs.uta.edu from the house', '2018-04-06 06:47:36', 'vaibhavsnaik09@gmail.com'),
+(25, 'Vaibhav Naik invited user Mansoor Abbas Ali to the house', '2018-04-06 06:47:53', 'vaibhavsnaik09@gmail.com'),
+(26, 'Vaibhav Naik removed the user mansoor.abbas@mavs.uta.edu from the house', '2018-04-06 06:51:53', 'vaibhavsnaik09@gmail.com'),
+(27, 'Vaibhav Naik invited user Mansoor Abbas Ali to the house', '2018-04-06 06:52:01', 'vaibhavsnaik09@gmail.com'),
+(28, 'Prakhar Sapre wants to edit storage named second table', '2018-04-06 07:24:28', 'prakhar.sapre2610@gmail.com'),
+(29, 'Prakhar Sapre wants to add storage named third table', '2018-04-06 07:24:44', 'prakhar.sapre2610@gmail.com'),
+(30, 'Vaibhav Naikdeleted storage', '2018-04-06 08:15:52', 'vaibhavsnaik09@gmail.com'),
+(31, 'Prakhar Sapre wants to add storage named Check', '2018-04-06 08:19:59', 'prakhar.sapre2610@gmail.com');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `logusers`
+--
+
+CREATE TABLE `logusers` (
+  `logUserId` int(11) NOT NULL,
+  `logId` int(11) NOT NULL,
+  `emailId` varchar(100) NOT NULL,
+  `status` varchar(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -154,6 +211,18 @@ ALTER TABLE `items`
   ADD KEY `FK_ITEMS_CREATED` (`updatedBy`);
 
 --
+-- Indexes for table `logs`
+--
+ALTER TABLE `logs`
+  ADD PRIMARY KEY (`logId`);
+
+--
+-- Indexes for table `logusers`
+--
+ALTER TABLE `logusers`
+  ADD PRIMARY KEY (`logUserId`);
+
+--
 -- Indexes for table `rooms`
 --
 ALTER TABLE `rooms`
@@ -189,6 +258,18 @@ ALTER TABLE `houses`
 --
 ALTER TABLE `items`
   MODIFY `itemId` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `logs`
+--
+ALTER TABLE `logs`
+  MODIFY `logId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+
+--
+-- AUTO_INCREMENT for table `logusers`
+--
+ALTER TABLE `logusers`
+  MODIFY `logUserId` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `rooms`
