@@ -9,8 +9,9 @@ $(document).ready(function () {
 		{ label: 'Item Id', name: 'itemId', key: true, width: 200 },
 		{ label: 'Item Name', name: 'itemName', editable: true,editrules : { required: true},edittype:"text"},
 		{ label: 'Item Type', name: 'itemType', editable: true,editrules : { required: true},edittype:"text"},
-		{ label:'Storage', name: 'storage', editable: true,editrules : { required: true},edittype: "text"},
-		{ label: 'Room', name: 'room', editable: true,editrules : { required: true},edittype:"text"},
+		{ label: 'Item Description', name: 'itemDesc', editable: true,editrules : { required: true},edittype:"text"},
+		{ label:'Storage', name: 'storageName', editable: true,editrules : { required: true},edittype: "text"},
+		{ label: 'Room', name: 'roomName', editable: true,editrules : { required: true},edittype:"text"},
 		{ label: 'User Name', name: 'userName', editable: true,editrules : { required: true},edittype:"text"}
 		],
 		viewrecords: true,

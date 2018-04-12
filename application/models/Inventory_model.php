@@ -90,8 +90,8 @@
 			$query = $this->db->query('select roomId,roomName from rooms where houseId='.$id);
 			return $query -> result_array();
 		}
-		public function get_items($user){
-			$query = $this->db->query('');
+		public function get_items($form_data){
+			$query = $this->db->query("select i.itemId, i.itemName,i.itemType, i.itemDesc,s.storageName,r.roomName, u.userName from storage s,rooms r, items i, users u where s.roomId in (select r.roomId from rooms where houseId=".$form_data['houseId'].") and s.roomId=r.roomId and i.storageId = s.storageId and u.emailId = ". "'".$form_data['emailId']."'"." and u.emailId = i.userId");
 			return $query -> result_array();
 		}
 		
@@ -107,5 +107,31 @@
 				'users' => $users
 			);
 			$this->asynclibrary->daemon($url, $param);
+		}
+
+		public function add_item($form_data){
+			$query = $this->db->query("select storageId from storage where storageName="."'".$form_data['storageName']."'");
+			$storageId = "";
+			foreach ($query->result_array() as $row) {
+				$storageId = $row['storageId'];
+			}
+			$data = array(
+					 	'itemName'=>$form_data['itemName'],
+					 	'itemType'=>$form_data['itemType'],
+					 	'storageId' =>$storageId,
+					 	'updatedBy' =>$this->session->userdata('user')['emailId'],
+					 	'itemDesc' =>$form_data['itemDesc'],
+					 	'userId'=>$this->session->userdata('user')['emailId']
+					 );
+				if($this->session->userdata('user')['userType']==1){
+					$data['status']='active';
+					$this->db->insert('items',$data);
+					$this->log($this->session->userdata('user')['userName'].' added item named '.$form_data['itemName'],$this->session->userdata('user')['emailId'],$this->session->userdata('users'));
+				}
+				else{
+					$data['status']='pending';
+					$this->db->insert('items',$data);
+					$this->log($this->session->userdata('user')['userName'].' wants to add storage named '.$form_data['storageName'],$this->session->userdata('user')['emailId'],$this->session->userdata('admin'));
+				}
 		}
 	}
