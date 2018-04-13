@@ -95,9 +95,10 @@
 			return $query -> result_array();
 		}
 		
-		public function del_item($form_data,$user){
+		public function del_item($form_data){
 			$this->db->where_in('itemId', $form_data['id']);
    			$this->db->delete('items'); 
+   			$this->log($this->session->userdata('user')['userName']. 'deleted item',$this->session->userdata('user')['emailId'],$this->session->userdata('users'));
 		}
 
 		public function log($log,$userId,$users){
@@ -105,6 +106,15 @@
 			$param = array('log' => $log,
 				'userId' => $userId,
 				'users' => $users
+			);
+			$this->asynclibrary->daemon($url, $param);
+		}
+
+		public function sendEmail($userId,$subject,$message){
+			$url = base_url()."daemon/send";
+			$param = array('userId' => $userId,
+				'subject' => $subject,
+				'message' => $message
 			);
 			$this->asynclibrary->daemon($url, $param);
 		}
@@ -123,6 +133,18 @@
 					 	'itemDesc' =>$form_data['itemDesc'],
 					 	'userId'=>$this->session->userdata('user')['emailId']
 					 );
+
+				$this->sendEmail('prakhar.sapre2610@gmail.com','hello','hello');
+
+				/*if(strtolower($data['itemType']) == "shared"){
+					$emailSubject = $this->session->userdata('user')['userName'].' added item named '.$form_data['itemName'];
+					$allUserEmails = $this->user_model->getUsersByHouseId($form_data['houseId']);
+					$this->sendEmail('prakhar.sapre2610@gmail.com',$allUserEmails,$allUserEmails);
+					foreach ($allUserEmails as $row){
+						$this->user_model->sendEmail('prakhar.sapre2610@gmail.com','hello','hello');
+					}
+
+				}*/
 				if($this->session->userdata('user')['userType']==1){
 					$data['status']='active';
 					$this->db->insert('items',$data);
@@ -134,4 +156,14 @@
 					$this->log($this->session->userdata('user')['userName'].' wants to add storage named '.$form_data['storageName'],$this->session->userdata('user')['emailId'],$this->session->userdata('admin'));
 				}
 		}
+
+		public function searchItem($form_data){
+			$query = $this->db->query("select i.itemName,i.itemType, i.itemDesc,s.storageName,r.roomName,i.updatedBy from storage s,rooms r, items i, users u where s.roomId in (select r.roomId from rooms where i.itemName = "."'".$form_data['search']."'"." and houseId=".$form_data['houseId'].") and s.roomId=r.roomId and i.storageId = s.storageId and u.emailId = ". "'".$form_data['emailId']."'"." and u.emailId = i.userId");
+			return $query->result_array();
+		} 
+
+		/*public function getItemNames($form_data){
+			$query = "select i.itemName from storage s,rooms r, items i, users u where s.roomId in (select r.roomId from rooms where houseId=".$form_data['houseId'].") and s.roomId=r.roomId and i.storageId = s.storageId and u.emailId = ". "'".$form_data['emailId']."'"." and u.emailId = i.userId";
+			return $query;
+		}*/
 	}

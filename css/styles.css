@@ -12,6 +12,10 @@ body {
 	color: white !important;
 }
 
+#searchBtn{
+	background-color: #337AB7;
+}
+
 .header-color>li>a:HOVER {
 	background-color: #eee !important;
 	color: black !important;
