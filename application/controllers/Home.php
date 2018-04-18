@@ -12,6 +12,7 @@
 			//$data['items']=$this->inventory_model->get_items($user);
 			$this->load->view('pages/home',$data);
 			$this->load->view('templates/footer');
+
 		}
 		public function login(){
 			$data['title']= 'Home';
@@ -48,5 +49,21 @@
 			$data['title']= 'Welcome';
 			$this->session->sess_destroy();
 			redirect('login');
+		}
+
+		public function searchItem(){
+			$form_data = $this->input->post();
+			$form_data['houseId'] = $this->session->userdata('user')['houseId'];
+			$form_data['emailId']=$this->session->userdata('user')['emailId'];
+			$result = $this->inventory_model->searchItem($form_data);
+			foreach ($result as $row){
+				$this->session->set_flashdata("ItemName",$row['itemName']);
+				$this->session->set_flashdata("ItemType",$row['itemType']);
+				$this->session->set_flashdata("ItemDesc",$row['itemDesc']);
+				$this->session->set_flashdata("ItemLoc",$row['storageName']);
+				$this->session->set_flashdata("RoomName",$row['roomName']);
+				$this->session->set_flashdata("UpdatedBy",$row['updatedBy']);
+			}
+			redirect('home');
 		}
 	}

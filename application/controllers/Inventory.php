@@ -15,6 +15,9 @@
 		public function items(){
 			$form_data = $this->input->get();
 			$form_data['houseId']=$this->session->userdata('user')['houseId'];
+			$form_data['emailId']=$this->session->userdata('user')['emailId'];
+			header('Content-Type: application/json');
+			echo json_encode($this->inventory_model->get_items($form_data));
 		}
 		public function editItem(){
 			$form_data = $this->input->post();
