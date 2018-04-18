@@ -91,13 +91,13 @@
 			return $query -> result_array();
 		}
 		public function get_items($form_data){
-			$query = $this->db->query("select i.itemId, i.itemName,i.itemType, i.itemDesc,s.storageName,r.roomName, u.userName from storage s,rooms r, items i, users u where s.roomId in (select r.roomId from rooms where houseId=".$form_data['houseId'].") and s.roomId=r.roomId and i.storageId = s.storageId and u.emailId = ". "'".$form_data['emailId']."'"." and u.emailId = i.userId");
+			$query = $this->db->query("select i.itemId, i.itemName,i.itemType, i.itemDesc,s.storageName,r.roomName, u.userName, i.status from storage s,rooms r, items i, users u where s.roomId in (select r.roomId from rooms where houseId=".$form_data['houseId'].") and s.roomId=r.roomId and i.storageId = s.storageId and u.emailId = ". "'".$form_data['emailId']."'"." and u.emailId = i.userId");
 			return $query -> result_array();
 		}
 		
 		public function del_item($form_data){
-			$this->db->where_in('itemId', $form_data['id']);
-   			$this->db->delete('items'); 
+			$this->db->where_in('itemId', explode(",",$form_data['id']) );
+   			$this->db->delete('items');
    			$this->log($this->session->userdata('user')['userName']. 'deleted item',$this->session->userdata('user')['emailId'],$this->session->userdata('users'));
 		}
 
@@ -134,7 +134,7 @@
 					 	'userId'=>$this->session->userdata('user')['emailId']
 					 );
 
-				$this->sendEmail('prakhar.sapre2610@gmail.com','hello','hello');
+				//$this->sendEmail('prakhar.sapre2610@gmail.com','hello','hello');
 
 				/*if(strtolower($data['itemType']) == "shared"){
 					$emailSubject = $this->session->userdata('user')['userName'].' added item named '.$form_data['itemName'];
@@ -146,19 +146,48 @@
 
 				}*/
 				if($this->session->userdata('user')['userType']==1){
-					$data['status']='active';
+					$data['status'] = 'active';
 					$this->db->insert('items',$data);
 					$this->log($this->session->userdata('user')['userName'].' added item named '.$form_data['itemName'],$this->session->userdata('user')['emailId'],$this->session->userdata('users'));
 				}
 				else{
-					$data['status']='pending';
+					$data['status'] = 'pending';
+					$data['history']=$this->session->userdata('user')['userName'].' wants to add item named '.$form_data['itemName'];
 					$this->db->insert('items',$data);
 					$this->log($this->session->userdata('user')['userName'].' wants to add storage named '.$form_data['storageName'],$this->session->userdata('user')['emailId'],$this->session->userdata('admin'));
 				}
 		}
 
+		public function edit_item($form_data){
+			$this->db->where('itemId', $form_data['id']);
+			$query = $this->db->query("select storageId from storage where storageName="."'".$form_data['storageName']."'");
+			$storageId = "";
+			foreach ($query->result_array() as $row) {
+				$storageId = $row['storageId'];
+			}
+			$data = array(
+					 	'itemName'=>$form_data['itemName'],
+					 	'itemType'=>$form_data['itemType'],
+					 	'storageId' =>$storageId,
+					 	'updatedBy' =>$this->session->userdata('user')['emailId'],
+					 	'itemDesc' =>$form_data['itemDesc'],
+					 	'userId'=>$this->session->userdata('user')['emailId']
+					 );
+			if($this->session->userdata('user')['userType']==1){
+					$data['status']='active';
+					$this->db->update('items',$data);
+					$this->log($this->session->userdata('user')['userName'].' edited item named '.$form_data['itemName'],$this->session->userdata('user')['emailId'],$this->session->userdata('users'));
+				}
+				else{
+					$data['status']='pending';
+					$data['history']=$this->session->userdata('user')['userName'].' wants to edit item named '.$form_data['itemName'];
+					$this->db->update('items',$data);
+					$this->log($this->session->userdata('user')['userName'].' wants to edit item named '.$form_data['itemName'],$this->session->userdata('user')['emailId'],$this->session->userdata('admin'));
+				}
+		}
+
 		public function searchItem($form_data){
-			$query = $this->db->query("select i.itemName,i.itemType, i.itemDesc,s.storageName,r.roomName,i.updatedBy from storage s,rooms r, items i, users u where s.roomId in (select r.roomId from rooms where i.itemName = "."'".$form_data['search']."'"." and houseId=".$form_data['houseId'].") and s.roomId=r.roomId and i.storageId = s.storageId and u.emailId = ". "'".$form_data['emailId']."'"." and u.emailId = i.userId");
+			$query = $this->db->query("select i.itemName,i.itemType, i.itemDesc,s.storageName,r.roomName,i.updatedBy from storage s,rooms r, items i, users u where i.status='active' and s.roomId in (select r.roomId from rooms where i.itemName = "."'".$form_data['search']."'"." and houseId=".$form_data['houseId'].") and s.roomId=r.roomId and i.storageId = s.storageId and u.emailId = ". "'".$form_data['emailId']."'"." and u.emailId = i.userId");
 			return $query->result_array();
 		} 
 

@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.4
+-- version 4.7.7
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 08, 2018 at 01:33 AM
+-- Generation Time: Apr 18, 2018 at 11:43 PM
 -- Server version: 10.1.30-MariaDB
--- PHP Version: 7.2.1
+-- PHP Version: 7.2.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -54,11 +54,20 @@ CREATE TABLE `items` (
   `ItemName` varchar(200) NOT NULL,
   `itemDesc` varchar(200) DEFAULT NULL,
   `itemType` varchar(10) NOT NULL,
-  `userId` varchar(25) DEFAULT NULL,
+  `userId` varchar(100) DEFAULT NULL,
   `updatedBy` varchar(100) NOT NULL,
   `storageId` int(11) NOT NULL,
-  `status` varchar(1) NOT NULL
+  `status` varchar(10) NOT NULL,
+  `history` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `items`
+--
+
+INSERT INTO `items` (`itemId`, `ItemName`, `itemDesc`, `itemType`, `userId`, `updatedBy`, `storageId`, `status`, `history`) VALUES
+(13, 'books', 'book of AI', 'personal', 'prakhar.sapre2610@gmail.com', 'prakhar.sapre2610@gmail.com', 2, 'pending', 'Prakhar Sapre wants to edit item named books'),
+(14, 'pen', 'parker pen', 'personal', 'prakhar.sapre2610@gmail.com', 'prakhar.sapre2610@gmail.com', 6, 'active', 'Prakhar Sapre wants to add item named pen');
 
 -- --------------------------------------------------------
 
@@ -102,7 +111,49 @@ INSERT INTO `logs` (`logId`, `log`, `createdDate`, `userId`) VALUES
 (28, 'Prakhar Sapre wants to edit storage named second table', '2018-04-06 07:24:28', 'prakhar.sapre2610@gmail.com'),
 (29, 'Prakhar Sapre wants to add storage named third table', '2018-04-06 07:24:44', 'prakhar.sapre2610@gmail.com'),
 (30, 'Vaibhav Naikdeleted storage', '2018-04-06 08:15:52', 'vaibhavsnaik09@gmail.com'),
-(31, 'Prakhar Sapre wants to add storage named Check', '2018-04-06 08:19:59', 'prakhar.sapre2610@gmail.com');
+(31, 'Prakhar Sapre wants to add storage named Check', '2018-04-06 08:19:59', 'prakhar.sapre2610@gmail.com'),
+(32, 'Prakhar Sapre wants to add storage named ', '2018-04-12 01:47:11', 'prakhar.sapre2610@gmail.com'),
+(33, 'Prakhar Sapre wants to add storage named drawer', '2018-04-12 01:52:57', 'prakhar.sapre2610@gmail.com'),
+(34, 'Prakhar Sapre wants to add storage named ', '2018-04-12 03:38:36', 'prakhar.sapre2610@gmail.com'),
+(35, 'Prakhar Sapre wants to add storage named table', '2018-04-12 03:54:54', 'prakhar.sapre2610@gmail.com'),
+(36, 'Prakhar Sapre wants to add storage named table', '2018-04-13 01:13:25', 'prakhar.sapre2610@gmail.com'),
+(37, 'Prakhar Sapre wants to add storage named table', '2018-04-13 01:14:46', 'prakhar.sapre2610@gmail.com'),
+(38, 'Prakhar Sapre wants to add storage named table', '2018-04-13 01:16:14', 'prakhar.sapre2610@gmail.com'),
+(39, 'Prakhar Sapre wants to add storage named table', '2018-04-13 01:16:21', 'prakhar.sapre2610@gmail.com'),
+(40, 'Prakhar Sapre wants to add storage named table', '2018-04-13 01:16:27', 'prakhar.sapre2610@gmail.com'),
+(41, 'Prakhar Sapre wants to add storage named table', '2018-04-13 01:22:19', 'prakhar.sapre2610@gmail.com'),
+(42, 'Prakhar Sapre wants to add storage named table', '2018-04-13 01:25:13', 'prakhar.sapre2610@gmail.com'),
+(43, 'Prakhar Sapre wants to add storage named table', '2018-04-13 01:28:16', 'prakhar.sapre2610@gmail.com'),
+(44, 'Prakhar Sapre wants to add storage named table', '2018-04-13 01:37:04', 'prakhar.sapre2610@gmail.com'),
+(45, 'Prakhar Sapre wants to add storage named table', '2018-04-13 01:38:49', 'prakhar.sapre2610@gmail.com'),
+(46, 'Prakhar Sapre wants to add storage named table', '2018-04-13 01:45:13', 'prakhar.sapre2610@gmail.com'),
+(47, 'Prakhar Sapre wants to add storage named table', '2018-04-13 01:46:41', 'prakhar.sapre2610@gmail.com'),
+(48, 'Prakhar Sapredeleted item', '2018-04-13 01:52:44', 'prakhar.sapre2610@gmail.com'),
+(49, 'Prakhar Sapre wants to add storage named cupboard', '2018-04-14 00:30:41', 'prakhar.sapre2610@gmail.com'),
+(50, 'Prakhar Sapre wants to add storage named cupboard', '2018-04-14 00:49:08', 'prakhar.sapre2610@gmail.com'),
+(51, 'Prakhar Sapre wants to add storage named cupboard', '2018-04-14 01:18:40', 'prakhar.sapre2610@gmail.com'),
+(52, 'Prakhar Sapre wants to add storage named cupboard', '2018-04-14 01:19:15', 'prakhar.sapre2610@gmail.com'),
+(53, 'Prakhar Sapre wants to add storage named table', '2018-04-14 23:30:41', 'prakhar.sapre2610@gmail.com'),
+(54, 'Prakhar Sapre wants to edit item named book2', '2018-04-14 23:40:38', 'prakhar.sapre2610@gmail.com'),
+(55, 'Prakhar Sapre wants to edit item named book2', '2018-04-14 23:41:51', 'prakhar.sapre2610@gmail.com'),
+(56, 'Prakhar Sapredeleted item', '2018-04-14 23:49:18', 'prakhar.sapre2610@gmail.com'),
+(57, 'Prakhar Sapredeleted item', '2018-04-14 23:49:25', 'prakhar.sapre2610@gmail.com'),
+(58, 'Prakhar Sapredeleted item', '2018-04-14 23:52:26', 'prakhar.sapre2610@gmail.com'),
+(59, 'Prakhar Sapredeleted item', '2018-04-14 23:55:53', 'prakhar.sapre2610@gmail.com'),
+(60, 'Prakhar Sapredeleted item', '2018-04-14 23:56:38', 'prakhar.sapre2610@gmail.com'),
+(61, 'Prakhar Sapredeleted item', '2018-04-15 00:03:18', 'prakhar.sapre2610@gmail.com'),
+(62, 'Prakhar Sapre wants to add storage named table', '2018-04-15 00:05:16', 'prakhar.sapre2610@gmail.com'),
+(63, 'Prakhar Sapredeleted item', '2018-04-15 00:05:25', 'prakhar.sapre2610@gmail.com'),
+(64, 'Prakhar Sapre wants to add storage named cupboard', '2018-04-15 00:06:57', 'prakhar.sapre2610@gmail.com'),
+(65, 'Prakhar Sapredeleted item', '2018-04-15 00:07:36', 'prakhar.sapre2610@gmail.com'),
+(66, 'Prakhar Sapre wants to add storage named table', '2018-04-15 00:09:28', 'prakhar.sapre2610@gmail.com'),
+(67, 'Prakhar Sapredeleted item', '2018-04-15 00:09:37', 'prakhar.sapre2610@gmail.com'),
+(68, 'Prakhar Sapredeleted item', '2018-04-15 00:20:03', 'prakhar.sapre2610@gmail.com'),
+(69, 'Prakhar Sapre wants to add storage named table', '2018-04-15 00:22:01', 'prakhar.sapre2610@gmail.com'),
+(70, 'Prakhar Sapredeleted item', '2018-04-15 00:27:25', 'prakhar.sapre2610@gmail.com'),
+(71, 'Prakhar Sapre wants to add storage named table', '2018-04-15 00:27:44', 'prakhar.sapre2610@gmail.com'),
+(72, 'Prakhar Sapre wants to add storage named drawer', '2018-04-15 00:28:20', 'prakhar.sapre2610@gmail.com'),
+(73, 'Prakhar Sapre wants to edit item named books', '2018-04-18 21:24:36', 'prakhar.sapre2610@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -163,7 +214,9 @@ CREATE TABLE `storage` (
 
 INSERT INTO `storage` (`storageId`, `storageName`, `storageDesc`, `history`, `userId`, `status`, `roomId`) VALUES
 (2, 'table', 'study table', '', 'vaibhavsnaik09@gmail.com', 'active', 1),
-(5, 'Check', 'testing', 'Prakhar Sapre wants to add storage named Check', 'prakhar.sapre2610@gmail.com', 'pending', 4);
+(5, 'Check', 'testing', 'Prakhar Sapre wants to add storage named Check', 'prakhar.sapre2610@gmail.com', 'active', 4),
+(6, 'drawer', 'table drawer', 'Prakhar Sapre wants to add storage named drawer', 'prakhar.sapre2610@gmail.com', 'active', 2),
+(7, 'cupboard', 'bedroom 2 cupboard', 'Prakhar Sapre wants to add storage named cupboard', 'prakhar.sapre2610@gmail.com', 'active', 2);
 
 -- --------------------------------------------------------
 
@@ -257,13 +310,13 @@ ALTER TABLE `houses`
 -- AUTO_INCREMENT for table `items`
 --
 ALTER TABLE `items`
-  MODIFY `itemId` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `itemId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `logs`
 --
 ALTER TABLE `logs`
-  MODIFY `logId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `logId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=74;
 
 --
 -- AUTO_INCREMENT for table `logusers`
@@ -275,13 +328,13 @@ ALTER TABLE `logusers`
 -- AUTO_INCREMENT for table `rooms`
 --
 ALTER TABLE `rooms`
-  MODIFY `roomId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `roomId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `storage`
 --
 ALTER TABLE `storage`
-  MODIFY `storageId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `storageId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- Constraints for dumped tables
