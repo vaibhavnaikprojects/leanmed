@@ -1,11 +1,16 @@
 function action(table,cellvalue,action){
-	console.log(table+" "+cellvalue+" "+action);
-	if (action=='approve') {
-		
-	}	
-	else{
-
-	}
+		$.ajax({
+                type: "POST",
+                url: "/item-finder/admin/manageApproval",
+                data: {
+                	"table": table,
+                	"id": cellvalue,
+                	"action": action},
+                dataType: "json",
+                success: function(){
+                }
+            });
+	
 	$('#approvalsjqGrid').trigger( 'reloadGrid' );
 
 }

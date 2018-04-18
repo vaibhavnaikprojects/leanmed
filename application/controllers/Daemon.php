@@ -41,7 +41,7 @@ class Daemon extends CI_Controller {
 			}
 		}
 		public function sendEmail($to_email,$subject,$message){
-			$this->email->from('vaibhavsnaik09@gmail.com', 'Item Finder Support'); 
+			$this->email->from('prakhar.sapre2610@gmail.com', 'Item Finder Support'); 
         	$this->email->to($to_email);
         	$this->email->subject($subject); 
         	$this->email->message($message);

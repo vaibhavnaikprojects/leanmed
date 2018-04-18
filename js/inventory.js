@@ -12,6 +12,7 @@ $(document).ready(function () {
 		{ label: 'Item Description', name: 'itemDesc', editable: true,editrules : { required: true},edittype:"text"},
 		{ label:'Storage', name: 'storageName', editable: true,editrules : { required: true},edittype: "text"},
 		{ label: 'Room', name: 'roomName', editable: true,editrules : { required: true},edittype:"text"},
+		{ label: 'Status', name: 'status'},
 		{ label: 'User Name', name: 'userName', editable: true,editrules : { required: true},edittype:"text"}
 		],
 		viewrecords: true,
@@ -59,8 +60,8 @@ $(document).ready(function () {
 		{ label: 'Storage Name', name: 'storageName',editable: true,editrules : { required: true},edittype:"text"},
 		{ label: 'Storage Description', name: 'storageDesc',editable: true,editrules : { required: true},edittype:"text"},
 		{ label: 'Last Updated By', name: 'userId'},
-		{ label: 'status', name: 'status'},
-		{ label: 'roomId', name: 'roomId',hidden: true},
+		{ label: 'Status', name: 'status'},
+		{ label: 'RoomId', name: 'roomId',hidden: true},
 		{ label: 'Room', name: 'roomName',editable: true,editrules : { required: true},edittype:"select",editoptions: {
              value: $rooms
             }}

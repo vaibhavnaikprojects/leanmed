@@ -36,4 +36,25 @@
 			header('Content-Type: application/json');
 			echo json_encode($this->user_model->getApprovalsByHouseId($this->session->userdata('user')['houseId']));
 		}
+
+		public function manageApproval(){
+			$result = $this->input->post();
+			if($result['action'] == 'approve'){
+				if($result['table'] == 'storage'){
+					$query = $this->db->query("update storage set status='active' where storageId=".$result['id']);
+				}
+				else if($result['table']== 'items'){
+					$query = $this->db->query("update items set status='active' where itemId=".$result['id']);
+				}
+			}else{
+				if($result['table'] == 'storage'){
+					$query = $this->db->query("update storage set status='declined' where storageId=".$result['id']);
+				}
+				else if($result['table']== 'items'){
+					$query = $this->db->query("update items set status='declined' where itemId=".$result['id']);
+				}
+			}
+			redirect('admin');
+		}
+
 	}

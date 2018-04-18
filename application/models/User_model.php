@@ -156,12 +156,16 @@
 				$test = array('message' => $approval1[$x]['history'], 'userId' =>$approval1[$x]['userId'], 'storageId' =>$approval1[$x]['storageId'],'table' => 'storage');
 				array_push($approval, $test);
 			}
-			$query=$this->db->query("select i.* from items i,storage s,rooms r where i.storageId=s.storageId and s.roomId=r.roomId and r.houseId=".$houseId." and i.status='pending' order by itemId desc");
-			$approval2=$query -> result_array();
-			for($x=0;$x<count($approval2);$x++){/*
-				$test = array('message' => $approval2[$x]['history'], 'userId' =>$approval2[$x]['userId'], 'storageId' =>$approval2[$x]['storageId'],'table' => 'storage');
-				array_push($approval, $test);*/
+			
+
+			$itemQuery=$this->db->query("select i.* from items i,storage s,rooms r where i.storageId=s.storageId and s.roomId=r.roomId and r.houseId=".$houseId." and i.status='pending' order by itemId desc");
+			$approval2=$itemQuery -> result_array();
+			for($x=0;$x<count($approval2);$x++){
+				$test = array('message' => $approval2[$x]['history'], 'userId' =>$approval2[$x]['userId'], 'storageId' =>$approval2[$x]['itemId'],'table' => 'items');
+				array_push($approval, $test);
 			}
+			
+
 			return $approval;
 		}
 	}
