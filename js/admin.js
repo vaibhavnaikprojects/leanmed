@@ -1,10 +1,11 @@
-function action(table,cellvalue,action){
+function action(table,history,cellvalue,action){
 		$.ajax({
                 type: "POST",
                 url: "/item-finder/admin/manageApproval",
                 data: {
                 	"table": table,
                 	"id": cellvalue,
+                	"history": history,
                 	"action": action},
                 dataType: "json",
                 success: function(){
@@ -86,7 +87,8 @@ $(document).ready(function () {
 	});
 	
 	function actionFormatter(cellvalue, options, rowObject){
-		return "<button class='btn btn-success btn-sm actions' onclick=action('"+rowObject.table+"','"+cellvalue+"','approve')> Approve</button> <button class='btn btn-danger btn-sm actions'  onclick=action('"+rowObject.table+"','"+cellvalue+"','reject')> Decline</button>";
+		var message = rowObject.message;
+		return "<button class='btn btn-success btn-sm actions' onclick=action('"+rowObject.table+"','"+message.replace(/\s+/g,'')+"','"+cellvalue+"','approve')> Approve</button> <button class='btn btn-danger btn-sm actions'  onclick=action('"+rowObject.table+"','"+message.replace(/\s+/g,'')+"','"+cellvalue+"','reject')> Decline</button>";
 	}
 	
 });

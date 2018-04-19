@@ -1,4 +1,4 @@
-<?php
+	<?php
 	class Admin extends CI_Controller{
 		public function index(){
 			if($this->session->userdata('user')==""){
@@ -39,21 +39,86 @@
 
 		public function manageApproval(){
 			$result = $this->input->post();
-			if($result['action'] == 'approve'){
-				if($result['table'] == 'storage'){
-					$query = $this->db->query("update storage set status='active' where storageId=".$result['id']);
-				}
-				else if($result['table']== 'items'){
-					$query = $this->db->query("update items set status='active' where itemId=".$result['id']);
+			
+			if($result['table'] == 'storage'){
+				$this->db->where('storageId',$result['id']);
+				$query = $this->db->get('storage');
+				foreach ($query->result_array() as $row){
+					$refId = $row['ref'];
 				}
 			}else{
-				if($result['table'] == 'storage'){
-					$query = $this->db->query("update storage set status='declined' where storageId=".$result['id']);
-				}
-				else if($result['table']== 'items'){
-					$query = $this->db->query("update items set status='declined' where itemId=".$result['id']);
+				$this->db->where('itemId',$result['id']);
+				$query = $this->db->get('items');
+				foreach ($query->result_array() as $row){
+					$refId = $row['ref'];
 				}
 			}
+
+			if($result['action'] == 'approve'){
+				if(strpos($result['history'],"edit")){
+					if($result['table'] == 'storage'){
+						$this->db->where('storageId',$refId);
+						$this->db->delete('storage');
+						$query = $this->db->query("update storage set status='active' where storageId=".$result['id']);
+
+					}
+					else if($result['table']== 'items'){
+						$this->db->where('itemId',$refId);
+						$this->db->delete('items');
+						$query = $this->db->query("update items set status='active' where itemId=".$result['id']);
+					}
+				}else{
+					if(strpos($result['history'],"delete")){
+						if($result['table'] == 'storage'){
+							$this->db->where('storageId',$result['id']);
+							$this->db->delete('storage');
+						}
+						else if($result['table'] == 'items'){
+							$this->db->where('itemId',$result['id']);
+							$this->db->delete('items');
+						}
+
+					}else{
+						if($result['table'] == 'storage'){
+							$query = $this->db->query("update storage set status='active' where storageId=".$result['id']);
+						}
+						else if($result['table'] == 'items'){
+							$query = $this->db->query("update items set status='active' where itemId=".$result['id']);
+						}
+					}
+				}
+			}else{
+				if(strpos($result['history'],"edit")){
+					if($result['table'] == 'storage'){
+						$data['status'] = "active";
+						$this->db->where('storageId',$refId);
+						$this->db->update('storage',$data);
+						$this->db->where('storageId',$result['id']);
+						$this->db->delete('storage');
+					}
+					else if($result['table']== 'items'){
+						$data['status'] = "active";
+						$this->db->where('itemId',$refId);
+						$this->db->update('items',$data);
+						$this->db->where('itemId',$result['id']);
+						$this->db->delete('items');
+					}
+				}else{
+					if(strpos($result['history'],"delete")){
+						if($result['table'] == 'storage'){
+							$data['status'] = "active";
+							$this->db->where('storageId',$result['id']);
+							$this->db->update('storage',$data);
+						}
+						else if($result['table']== 'items'){
+							$data['status'] = "active";
+							$this->db->where('itemId',$result['id']);
+							$this->db->update('items',$data);
+						}
+					}
+				}
+			}
+			
 			redirect('admin');
 		}
 
