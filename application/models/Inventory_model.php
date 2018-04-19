@@ -90,6 +90,16 @@
 			$query = $this->db->query('select roomId,roomName from rooms where houseId='.$id);
 			return $query -> result_array();
 		}
+		public function getActiveItems($term){
+			$query=$this->db->query("select * from (select i.itemId,i.itemName,i.itemType, i.itemDesc,s.storageName,r.roomName, u.userName, i.updatedBy from items i,storage s,rooms r,houses h, users u where i.storageId=s.storageId and s.roomId=r.roomId and r.houseId=h.houseId and i.updatedBy=u.emailId and h.houseId=".$this->session->userdata('user')['houseId']." and u.emailId='".$this->session->userdata('user')['emailId']."' and i.itemType='personal' and i.status='active' UNION select i.itemId,i.itemName, i.itemType, i.itemDesc, s.storageName, r.roomName, u.userName, i.updatedBy from items i,storage s,rooms r,houses h, users u where i.storageId=s.storageId and s.roomId=r.roomId and r.houseId=h.houseId and i.updatedBy=u.emailId and h.houseId=".$this->session->userdata('user')['houseId']." and i.itemType='shared' and i.status='active') a where a.itemName like '%".$term."%'");
+			return $query -> result_array();
+		}
+		public function getFrequentItems(){
+			$query=$this->db->query("select * from (select i.itemId,i.itemName,i.itemType, i.itemDesc,s.storageName,r.roomName, u.userName, i.updatedBy,i.frequency from items i,storage s,rooms r,houses h, users u where i.storageId=s.storageId and s.roomId=r.roomId and r.houseId=h.houseId and i.updatedBy=u.emailId and h.houseId=".$this->session->userdata('user')['houseId']." and u.emailId='".$this->session->userdata('user')['emailId']."' and i.itemType='personal' and i.status='active' UNION select i.itemId,i.itemName, i.itemType, i.itemDesc, s.storageName, r.roomName, u.userName, i.updatedBy,i.frequency from items i,storage s,rooms r,houses h, users u where i.storageId=s.storageId and s.roomId=r.roomId and r.houseId=h.houseId and i.updatedBy=u.emailId and h.houseId=".$this->session->userdata('user')['houseId']." and i.itemType='shared' and i.status='active') a order by a.frequency desc limit 10");
+			return $query -> result_array();
+		}
+
+
 		public function get_items($form_data){
 			$query = $this->db->query("select i.itemId, i.itemName,i.itemType, i.itemDesc,s.storageName,r.roomName, u.userName, i.status from storage s,rooms r, items i, users u where s.roomId in (select r.roomId from rooms where houseId=".$form_data['houseId'].") and s.roomId=r.roomId and i.storageId = s.storageId and u.emailId = ". "'".$form_data['emailId']."'"." and u.emailId = i.userId");
 			return $query -> result_array();

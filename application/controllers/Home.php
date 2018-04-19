@@ -8,12 +8,21 @@
 			$data['title']= 'Home';
 			$this->load->view('templates/header',$data);
 			$this->load->view('templates/nav');
-			$user=$this->session->userdata('user');
-			//$data['items']=$this->inventory_model->get_items($user);
+			//$data['items']=$this->inventory_model->getActiveItems();
 			$this->load->view('pages/home',$data);
 			$this->load->view('templates/footer');
-
 		}
+
+		public function getActiveItems(){
+			$form_data=$this->input->get();
+			header('Content-Type: application/json');
+			echo json_encode($this->inventory_model->getActiveItems($form_data['term']));
+		}
+		public function frequentItems(){
+			header('Content-Type: application/json');
+			echo json_encode($this->inventory_model->getFrequentItems());
+		}
+
 		public function login(){
 			$data['title']= 'Home';
 			$form_data = $this->input->post();
