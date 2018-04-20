@@ -8,10 +8,10 @@ $(document).ready(function () {
 		colModel: [
 		{ label: 'Item Id', name: 'itemId', key: true, width: 200 },
 		{ label: 'Item Name', name: 'itemName', editable: true,editrules : { required: true},edittype:"text"},
-		{ label: 'Item Type', name: 'itemType', editable: true,editrules : { required: true},edittype:"text"},
+		{ label: 'Item Type', name: 'itemType', editable: true,editrules : { required: true},edittype:"select",editoptions: {value: $itemTypes}},
 		{ label: 'Item Description', name: 'itemDesc', editable: true,editrules : { required: true},edittype:"text"},
-		{ label:'Storage', name: 'storageName', editable: true,editrules : { required: true},edittype: "text"},
-		{ label: 'Room', name: 'roomName', editable: true,editrules : { required: true},edittype:"text"},
+		{ label:'Storage', name: 'storageName', editable: true,editrules : { required: true},edittype:"select",editoptions: {value: $storages}},
+		{ label: 'Room', name: 'roomName', editable: false,editrules : { required: true},edittype:"text"},
 		{ label: 'Status', name: 'status'},
 		{ label: 'User Name', name: 'userName', editable: true,editrules : { required: true},edittype:"text"}
 		],

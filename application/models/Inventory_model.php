@@ -32,6 +32,10 @@ class Inventory_model extends CI_Model{
 		return $result;
 	}
 
+	public function get_storageNames(){
+		$query = $this->db->query("Select s.storageId ,s.storageName from storage s, rooms r where s.roomId in (select r.roomId from rooms where houseId=".$this->session->userdata('user')['houseId'].") and s.roomId = r.roomId");
+		return $query->result_array();
+	}
 	public function add_storage($form_data){
 		$data = array(
 			'storageName'=>$form_data['storageName'],
@@ -98,15 +102,14 @@ class Inventory_model extends CI_Model{
 	}
 
 	public function getActiveItems($term){
-			$query=$this->db->query("select * from (select i.itemId,i.itemName,i.itemType, i.itemDesc,s.storageName,r.roomName, u.userName, i.updatedBy from items i,storage s,rooms r,houses h, users u where i.storageId=s.storageId and s.roomId=r.roomId and r.houseId=h.houseId and i.updatedBy=u.emailId and h.houseId=".$this->session->userdata('user')['houseId']." and u.emailId='".$this->session->userdata('user')['emailId']."' and i.itemType='personal' and i.status='active' UNION select i.itemId,i.itemName, i.itemType, i.itemDesc, s.storageName, r.roomName, u.userName, i.updatedBy from items i,storage s,rooms r,houses h, users u where i.storageId=s.storageId and s.roomId=r.roomId and r.houseId=h.houseId and i.updatedBy=u.emailId and h.houseId=".$this->session->userdata('user')['houseId']." and i.itemType='shared' and i.status='active') a where a.itemName like '%".$term."%'");
-			return $query -> result_array();
-		}
-		public function getFrequentItems(){
-			$query=$this->db->query("select * from (select i.itemId,i.itemName,i.itemType, i.itemDesc,s.storageName,r.roomName, u.userName, i.updatedBy,i.frequency from items i,storage s,rooms r,houses h, users u where i.storageId=s.storageId and s.roomId=r.roomId and r.houseId=h.houseId and i.updatedBy=u.emailId and h.houseId=".$this->session->userdata('user')['houseId']." and u.emailId='".$this->session->userdata('user')['emailId']."' and i.itemType='personal' and i.status='active' UNION select i.itemId,i.itemName, i.itemType, i.itemDesc, s.storageName, r.roomName, u.userName, i.updatedBy,i.frequency from items i,storage s,rooms r,houses h, users u where i.storageId=s.storageId and s.roomId=r.roomId and r.houseId=h.houseId and i.updatedBy=u.emailId and h.houseId=".$this->session->userdata('user')['houseId']." and i.itemType='shared' and i.status='active') a order by a.frequency desc limit 10");
-			return $query -> result_array();
-		}
-		
+		$query=$this->db->query("select * from (select i.itemId,i.itemName,i.itemType, i.itemDesc,s.storageName,r.roomName, u.userName, i.updatedBy from items i,storage s,rooms r,houses h, users u where i.storageId=s.storageId and s.roomId=r.roomId and r.houseId=h.houseId and i.updatedBy=u.emailId and h.houseId=".$this->session->userdata('user')['houseId']." and u.emailId='".$this->session->userdata('user')['emailId']."' and i.itemType='personal' and i.status='active' UNION select i.itemId,i.itemName, i.itemType, i.itemDesc, s.storageName, r.roomName, u.userName, i.updatedBy from items i,storage s,rooms r,houses h, users u where i.storageId=s.storageId and s.roomId=r.roomId and r.houseId=h.houseId and i.updatedBy=u.emailId and h.houseId=".$this->session->userdata('user')['houseId']." and i.itemType='shared' and i.status='active') a where a.itemName like '%".$term."%'");
+		return $query -> result_array();
+	}
 
+	public function getFrequentItems(){
+		$query=$this->db->query("select * from (select i.itemId,i.itemName,i.itemType, i.itemDesc,s.storageName,r.roomName, u.userName, i.updatedBy,i.frequency from items i,storage s,rooms r,houses h, users u where i.storageId=s.storageId and s.roomId=r.roomId and r.houseId=h.houseId and i.updatedBy=u.emailId and h.houseId=".$this->session->userdata('user')['houseId']." and u.emailId='".$this->session->userdata('user')['emailId']."' and i.itemType='personal' and i.status='active' UNION select i.itemId,i.itemName, i.itemType, i.itemDesc, s.storageName, r.roomName, u.userName, i.updatedBy,i.frequency from items i,storage s,rooms r,houses h, users u where i.storageId=s.storageId and s.roomId=r.roomId and r.houseId=h.houseId and i.updatedBy=u.emailId and h.houseId=".$this->session->userdata('user')['houseId']." and i.itemType='shared' and i.status='active') a order by a.frequency desc limit 10");
+		return $query -> result_array();
+	}
 
 	public function get_items($form_data){
 		$query = $this->db->query("select i.itemId, i.itemName,i.itemType, i.itemDesc,s.storageName,r.roomName, u.userName, i.status from storage s,rooms r, items i, users u where s.roomId in (select r.roomId from rooms where houseId=".$form_data['houseId'].") and s.roomId=r.roomId and i.storageId = s.storageId and u.emailId = ". "'".$form_data['emailId']."'"." and u.emailId = i.userId and i.status != 'inactive'");
@@ -119,18 +122,18 @@ class Inventory_model extends CI_Model{
 
 		foreach ($items->result_array() as $row){
 
-		if(strtolower($row['itemType']) == 'personal'){
-		$this->db->where_in('itemId', explode(",",$form_data['id']) );
-		$this->db->delete('items');
-		$this->log($this->session->userdata('user')['userName']. ' deleted item '.$form_data['ItemName'],$this->session->userdata('user')['emailId'],$this->session->userdata('users'));
-		}else{
-			$data['status']='pending';
-			$this->db->where_in('itemId', explode(",",$form_data['id']) );
-			$this->db->update('items',$data);
-			$this->log($this->session->userdata('user')['userName']. ' wants to delete item '.$row['ItemName'],$this->session->userdata('user')['emailId'],$this->session->userdata('users'));
+			if(strtolower($row['itemType']) == 'personal'){
+				$this->db->where_in('itemId', explode(",",$form_data['id']) );
+				$this->db->delete('items');
+				$this->log($this->session->userdata('user')['userName']. ' deleted item '.$form_data['ItemName'],$this->session->userdata('user')['emailId'],$this->session->userdata('users'));
+			}else{
+				$data['status']='pending';
+				$this->db->where_in('itemId', explode(",",$form_data['id']) );
+				$this->db->update('items',$data);
+				$this->log($this->session->userdata('user')['userName']. ' wants to delete item '.$row['ItemName'],$this->session->userdata('user')['emailId'],$this->session->userdata('users'));
+			}
 		}
 	}
-}
 
 	public function log($log,$userId,$users){
 		$url = base_url()."daemon/add_log";
@@ -151,16 +154,10 @@ class Inventory_model extends CI_Model{
 	}
 
 	public function add_item($form_data){
-		$query = $this->db->query("select storageId from storage where storageName="."'".$form_data['storageName']."'");
-		$storageId = "";
-		foreach ($query->result_array() as $row) {
-			$storageId = $row['storageId'];
-		}
-
 		$data = array(
 			'itemName'=>$form_data['itemName'],
 			'itemType'=>$form_data['itemType'],
-			'storageId' =>$storageId,
+			'storageId' =>$form_data['storageName'],
 			'updatedBy' =>$this->session->userdata('user')['emailId'],
 			'itemDesc' =>$form_data['itemDesc'],
 			'userId'=>$this->session->userdata('user')['emailId']
@@ -189,7 +186,6 @@ class Inventory_model extends CI_Model{
 
 	public function edit_item($form_data){
 		$this->db->where('itemId', $form_data['id']);
-
 		$storageIdQuery = $this->db->query("select storageId from storage where storageName="."'".$form_data['storageName']."'");
 		$storageId = "";
 		foreach ($storageIdQuery->result_array() as $row) {
@@ -234,8 +230,4 @@ class Inventory_model extends CI_Model{
 		return $query->result_array();
 	} 
 
-		/*public function getItemNames($form_data){
-			$query = "select i.itemName from storage s,rooms r, items i, users u where s.roomId in (select r.roomId from rooms where houseId=".$form_data['houseId'].") and s.roomId=r.roomId and i.storageId = s.storageId and u.emailId = ". "'".$form_data['emailId']."'"." and u.emailId = i.userId";
-			return $query;
-		}*/
 	}
