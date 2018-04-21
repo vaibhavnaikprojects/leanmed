@@ -229,5 +229,15 @@ class Inventory_model extends CI_Model{
 		$query = $this->db->query("select i.itemName,i.itemType, i.itemDesc,s.storageName,r.roomName,i.updatedBy from storage s,rooms r, items i, users u where i.status='active' and s.roomId in (select r.roomId from rooms where i.itemName = "."'".$form_data['search']."'"." and houseId=".$form_data['houseId'].") and s.roomId=r.roomId and i.storageId = s.storageId and u.emailId = ". "'".$form_data['emailId']."'"." and u.emailId = i.userId");
 		return $query->result_array();
 	} 
-
+	public function addFrequency($itemId){
+		$query=$this->db->query("select frequency from items where itemId=".$itemId);
+		$count=$query->row_array()['frequency'];
+		$count=$count+1;	
+		$this->db->where('itemId', $itemId);
+			$data = array(
+				'frequency'=>$count
+			);
+			$this->db->update('items',$data);
 	}
+
+}

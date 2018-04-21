@@ -15,6 +15,12 @@ $(document).ready(function () {
         $( "#storageLoc" ).html( ui.item.storageName );
         $( "#roomName" ).html( ui.item.roomName );
         $( "#updatedBy" ).html( ui.item.userName );
+        $.ajax({
+		type: "get",
+		url: "home/addFrequency?itemId="+ui.item.itemId,
+		success: function(data){
+		}
+		});
         return false;
       }
     }).autocomplete( "instance" )._renderItem = function( ul, item ) {

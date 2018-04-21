@@ -23,6 +23,12 @@
 			echo json_encode($this->inventory_model->getFrequentItems());
 		}
 
+		public function addFrequency(){
+			$form_data=$this->input->get();
+			header('Content-Type: application/json');
+			echo json_encode($this->inventory_model->addFrequency($form_data['itemId']));	
+		}
+
 		public function login(){
 			$data['title']= 'Home';
 			$form_data = $this->input->post();
