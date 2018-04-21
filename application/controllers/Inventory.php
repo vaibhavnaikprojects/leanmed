@@ -7,6 +7,8 @@
 			}
 			$data['title']= 'Inventory';
 			$data['storagerooms']= $this->storagerooms();
+			$data['storages']=$this->storages();
+			$data['itemTypes']=$this->itemTypes();
 			$this->load->view('templates/header',$data);
 			$this->load->view('templates/nav');
 			$this->load->view('pages/inventory',$data);
@@ -35,9 +37,20 @@
 		public function rooms(){
 			$form_data = $this->input->get();
 			$form_data['houseId']=$this->session->userdata('user')['houseId'];
+			print_r($form_data);
 			header('Content-Type: application/json');
 			echo json_encode($this->inventory_model->get_rooms($form_data));
 		}
+
+		public function storages(){
+			$storages=$this->inventory_model->get_storageNames();
+			$str='';
+			for ($x = 0; $x <count($storages); $x++) {
+			    $str=$str.$storages[$x]['storageId'].":".$storages[$x]['storageName'].";";
+			}
+			return $str;
+		}
+		
 		public function editRoom(){
 			$form_data = $this->input->post();
 			$form_data['houseId']=$this->session->userdata('user')['houseId'];
@@ -78,5 +91,10 @@
 			    $str=$str.$rooms[$x]['roomId'].':'.$rooms[$x]['roomName'].';';
 			}
 			return $str;
+		}
+
+		public function itemTypes(){
+			$str = 'personal:personal;shared:shared';
+			return $str;			
 		}
 	}
