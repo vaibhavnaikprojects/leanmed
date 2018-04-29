@@ -1,10 +1,17 @@
 <div class="container-fluid">
 	<div class="row">
-		<div class="col-sm-12 col-md-4 col-md-offset-4 col-lg-offset-4 col-lg-4">
-			<h2 class="text-center">Item Finder</h2>
-			<div class="panel panel-primary">
-				<div class="panel-heading">Login</div>
+		<div class="col-sm-12 col-md-4 col-md-offset-4 col-lg-offset-4 col-lg-4" >
+			<div class="panel panel-primary margin-style">
 				<div class="panel-body">
+					<div class="row">
+						<div class="col-sm-12">
+							<h1 class="text-center">Find It!</h1>
+							<p class="text-center">A smarter way to search your items.</p>
+						</div>
+						<div class="col-sm-4 col-sm-offset-4">
+							<img src="<?php echo base_url(); ?>images/logo.png" alt="app logo" width="100%" class="pull-center"/>
+						</div>
+					</div>
 					<form class="form-horizontal" action="home/login" method="post">
 						<div class="form-group">
 							<div class="col-sm-12">

@@ -2,7 +2,8 @@
 	<div class="row">
 		<div class="col-lg-12">
 			<ul class="nav nav-tabs nav-justified">
-				<li role="presentation" class="active"><a  data-toggle="tab" href="#problemStatement">Problem Statement</a></li>
+				<li role="presentation" class="active"><a data-toggle="tab" href="#problemStatement">Problem Statement</a></li>
+				<li role="presentation"><a data-toggle="tab" href="#sitemap">Site Map</a></li>
 				<li role="presentation"><a data-toggle="tab" href="#aboutme">About</a></li>
 			</ul>
 			<div class="tab-content">
@@ -49,6 +50,42 @@
 									<p>The main content of our database will include the users , list of items and their locations.
 									We shall have a table to store user’s login credentials and other tables to store the items in the user’s house and their exact locations. We are planning to keep a house as an entity which will be mapped to the User Id and the house will be a key to all the items and their locations inside the specific house.</p>
 
+								</div>
+							</div>
+						</div>
+						<div id="sitemap" class="tab-pane fade">
+							<div class="panel panel-primary">
+								<div class="panel-body">
+									<div class="row">
+										<div class="col-lg-6">
+											<h3>Site Map</h3>
+											<ul>
+												<li><a href="login">SignIn/SignUp</a></li>
+												<li><a href="home">Look Up</a></li>
+												<li><a href="inventory">Inventory</a>
+													<ul>
+														<li><a href="inventory#items">Items</a></li>
+														<li><a href="inventory#storage">Storage</a></li>
+														<li><a href="inventory#rooms">Rooms</a></li>
+													</ul>
+												</li>
+												<li><a href="activity">Activity Center</a></li>
+												<li><a href="admin">Admin</a>
+													<ul>
+														<li><a href="admin#approvals">Manage Approvals</a></li>
+														<li><a href="admin#users">Manage Users</a></li>
+													</ul>
+												</li>
+												<li><a href="about">About</a>
+													<ul>
+														<li><a href="about#problemStatement">Problem Statement</a></li>
+														<li><a href="about#sitemap">Site Map</a></li>
+														<li><a href="about#aboutme">About</a></li>
+													</ul>
+												</li>
+											</ul>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>

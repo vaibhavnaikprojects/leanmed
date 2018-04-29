@@ -24,4 +24,20 @@ body {
 	  width: 100%;
 	  height: 20px;
 	  margin-top: 8px;
-  }
+}
+.margin-style{
+	margin-top: 36px !important;
+}
+.footer{
+	position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 50px;
+    background-color: #2E4357;
+    color: white;
+}
+.text-muted{
+	margin: 18px 0px;
+	color: white;
+	text-align: center;
+}

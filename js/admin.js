@@ -1,7 +1,7 @@
 function action(table,history,cellvalue,action){
 		$.ajax({
                 type: "POST",
-                url: "/item-finder/admin/manageApproval",
+                url: "admin/manageApproval",
                 data: {
                 	"table": table,
                 	"id": cellvalue,

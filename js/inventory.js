@@ -13,7 +13,7 @@ $(document).ready(function () {
 		{ label:'Storage', name: 'storageName', editable: true,editrules : { required: true},edittype:"select",editoptions: {value: $storages}},
 		{ label: 'Room', name: 'roomName', editable: false,editrules : { required: true},edittype:"text"},
 		{ label: 'Status', name: 'status'},
-		{ label: 'User Name', name: 'userName', editable: true,editrules : { required: true},edittype:"text"}
+		{ label: 'User Name', name: 'userName', editable: false,editrules : { required: true},edittype:"text"}
 		],
 		viewrecords: true,
 		height: 300,
