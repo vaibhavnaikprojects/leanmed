@@ -1,7 +1,7 @@
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-sm-12 col-md-4 col-md-offset-4 col-lg-offset-4 col-lg-4">
-			<h2 class="text-center">Item Finder</h2>
+			<h2 class="text-center">Find It!</h2>
 			<div class="panel panel-primary">
 				<div class="panel-heading">Forgot Password</div>
 				<div class="panel-body">

@@ -37,7 +37,6 @@
 		public function rooms(){
 			$form_data = $this->input->get();
 			$form_data['houseId']=$this->session->userdata('user')['houseId'];
-			print_r($form_data);
 			header('Content-Type: application/json');
 			echo json_encode($this->inventory_model->get_rooms($form_data));
 		}

@@ -28,7 +28,7 @@ $(document).ready(function () {
         .append( "<div><b> Item Name: " + item.itemName + "</b><br> Location: " + item.storageName + ", "+item.roomName+"</div>" )
         .appendTo( ul );
     };
-    setInterval( frequentCall, 10000 );
+    setInterval( frequentCall, 1000 );
 });
 
 function frequentCall(){
