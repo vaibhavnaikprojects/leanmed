@@ -5,11 +5,11 @@
 				<div class="panel-body">
 					<div class="row">
 						<div class="col-sm-12">
-							<h1 class="text-center">Find It!</h1>
-							<p class="text-center">A smarter way to search your items.</p>
+							<h1 class="text-center">LeanMed</h1>
+							<p class="text-center">Small Description</p>
 						</div>
 						<div class="col-sm-4 col-sm-offset-4">
-							<img src="<?php echo base_url(); ?>images/logo.png" alt="app logo" width="100%" class="pull-center"/>
+							<img src="<?php echo base_url(); ?>images/logo1.png" alt="app logo" width="100%" class="pull-center"/>
 						</div>
 					</div>
 					<form class="form-horizontal" action="home/login" method="post">

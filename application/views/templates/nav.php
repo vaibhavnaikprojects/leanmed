@@ -7,7 +7,7 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a href="home" style="text-decoration: none; color: white"><span class="navbar-brand" style="color: white">Find It!</span></a>
+        <a href="home" style="text-decoration: none; color: white"><span class="navbar-brand" style="color: white">LeanMed</span></a>
       </div>
       <div id="navbar-header-app" class="navbar-collapse collapse">
         <ul id="header-navbar" class="nav navbar-nav navbar-left header-color">
@@ -16,7 +16,7 @@
           <?php if ($this->session->userdata('user')['userType'] == 1) { ?>
           <li id="adminHeader"><a href="admin" style="text-decoration: none; color: white"><span class="glyphicon glyphicon-asterisk" aria-hidden="true"></span> Admin</a></li>
           <?php } ?>
-          <li id="aboutHeader"><a href="about" style="text-decoration: none; color: white"><span class="glyphicon glyphicon-info-sign"></span> About</a></li>
+          <!--<li id="aboutHeader"><a href="about" style="text-decoration: none; color: white"><span class="glyphicon glyphicon-info-sign"></span> About</a></li>-->
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <li id="activityHeader"><a href="activity" style="text-decoration: none; color: white"><span class="glyphicon glyphicon-th-large"></span> Activity Center</a></li>

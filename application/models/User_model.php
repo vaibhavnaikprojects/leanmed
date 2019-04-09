@@ -12,14 +12,6 @@
 			$query = $this->db->get_where('users',array('password'=> $password));
 			return $query -> row_array();
 		}
-		public function getUsersByHouseId($houseId){
-			$query = $this->db->get_where('users',array('houseId'=> $houseId));
-			return $query -> result_array();
-		}
-		public function getHouse($houseId){
-			$query = $this->db->get_where('houses',array('houseId'=> $houseId));
-			return $query -> row_array();
-		}
 		public function registerUser($form_data){
 			$query = $this->db->get_where('users',array('emailId'=> $form_data['emailId']));
 			$user= $query -> row_array();
@@ -80,9 +72,6 @@
 				}
 			}
 		}
-		public function generateKey(){
-			return rand(100000,999999);
-		}
 		public function sendEmail($to_email,$subject,$message){
 			$this->email->from('vaibhavsnaik09@gmail.com', 'Item Finder Support'); 
         	$this->email->to($to_email);
@@ -98,15 +87,6 @@
 			$this->db->update('users', $userData);
 		}
 
-		public function get_admin_email($houseId){
-			$query=$this->db->query('select admin "emailId" from houses where houseId='.$houseId);
-			return $query -> row_array();
-		}
-
-		public function get_house_users($houseId){
-			$query=$this->db->query("select emailId from users where houseId=".$houseId);
-			return $query -> result_array();
-		}
 		public function get_logs(){
 			$query=$this->db->query("select * from logs order by logId desc");
 			return $query -> result_array();

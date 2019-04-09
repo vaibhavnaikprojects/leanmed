@@ -15,20 +15,20 @@ $(document).ready(function () {
         $( "#storageLoc" ).html( ui.item.storageName );
         $( "#roomName" ).html( ui.item.roomName );
         $( "#updatedBy" ).html( ui.item.userName );
-        $.ajax({
-		type: "get",
-		url: "home/addFrequency?itemId="+ui.item.itemId,
-		success: function(data){
-		}
-		});
         return false;
       }
     }).autocomplete( "instance" )._renderItem = function( ul, item ) {
-      return $( "<li>" )
-        .append( "<div><b> Item Name: " + item.itemName + "</b><br> Location: " + item.storageName + ", "+item.roomName+"</div>" )
-        .appendTo( ul );
+    	$('#searchResults').show();
+    	$('#searchResults').show();
+        $( "#itemName" ).html( item.itemName );
+        $( "#itemType" ).html( item.itemType );
+        $( "#itemDesc" ).html( item.itemDesc );
+        $( "#storageLoc" ).html( item.storageName );
+        $( "#roomName" ).html( item.roomName );
+        $( "#updatedBy" ).html( item.userName );
+      return ;
     };
-    setInterval( frequentCall, 1000 );
+    //setInterval( frequentCall, 1000 );
 });
 
 function frequentCall(){
@@ -57,7 +57,4 @@ function frequentCall(){
 		}
 	});
 }
-$('#refresh').on('click',function(){
-	frequentCall();
-});
 

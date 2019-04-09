@@ -1,11 +1,4 @@
-
-down vote
-accepted
-I think you are not configured properly,
-
-if you are using XAMPP then you can easily send mail from localhost.
-
-for example you can configure C:\xampp\php\php.ini and c:\xampp\sendmail\sendmail.ini for gmail to send mail.
+you can configure C:\xampp\php\php.ini and c:\xampp\sendmail\sendmail.ini for gmail to send mail.
 
 in C:\xampp\php\php.ini find extension=php_openssl.dll and remove the semicolon from the beginning of that line to make SSL working for gmail for localhost.
 
