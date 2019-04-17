@@ -51,7 +51,7 @@
 			}
 			else if($this->UserModel->system_auth(false,false)==true){
 				$resp=$this->UserModel->getZonesByCountry($country);
-				json_output($resp['status'],$resp);
+				json_output(200,$resp);
 			}
 		}
 
