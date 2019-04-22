@@ -58,20 +58,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	}
 	function medicineOutput($medicineArr){
 		$medicine=array();
-		if (array_key_exists("Zone_Id",$zoneArr))
-			$zone['zoneId']=$zoneArr['Zone_Id'];
-		if (array_key_exists("zone",$zoneArr))
-			$zone['zone']=$zoneArr['zone'];
-		if (array_key_exists("Zone_Name",$zoneArr))
-			$zone['zoneName']=$zoneArr['Zone_Name'];
-		if (array_key_exists("Zone_Email",$zoneArr))
-			$zone['zoneEmail']=$zoneArr['Zone_Email'];
-		if (array_key_exists("Zone_Country",$zoneArr))
-			$zone['zoneCountry']=$zoneArr['Zone_Country'];
+		if (array_key_exists("Medicine_Id",$medicineArr))
+			$medicine['medicineId']=$medicineArr['Medicine_Id'];
+		if (array_key_exists("Generic_Name",$medicineArr))
+			$medicine['genName']=$medicineArr['Generic_Name'];
+		if (array_key_exists("Trade_Name",$medicineArr))
+			$medicine['tradeName']=$medicineArr['Trade_Name'];
+		if (array_key_exists("Medicine_Type",$medicineArr))
+			$medicine['medicineType']=$medicineArr['Medicine_Type'];
+		if (array_key_exists("Dosage",$medicineArr))
+			$medicine['dosage']=$medicineArr['Dosage'];
+		if (array_key_exists("Weight",$medicineArr))
+			$medicine['weight']=$medicineArr['Weight'];
 		return $medicine;
 	}
 	function inventoriesOutput($inventoryObjs){
-		$inventoryArr=$array();
+		$inventoryArr=array();
 		foreach ($inventoryObjs as $inventory) {
 		    $inventoryArr[]=inventoryOutput($inventory);
 		}
@@ -79,15 +81,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	}
 	function inventoryOutput($inventory){
 		$inventoryArr=array();
-		$zone=zoneOutput($inventory);
+		if (array_key_exists("Inventory_Id",$inventory))
+			$inventoryArr['inventoryId']=$inventory['Inventory_Id'];
+		if (array_key_exists("Units",$inventory))
+			$inventoryArr['units']=$inventory['Units'];
+		if (array_key_exists("ID_Box",$inventory))
+			$inventoryArr['idBox']=$inventory['ID_Box'];
+		if (array_key_exists("Exp_Date",$inventory))
+			$inventoryArr['expiryDate']=$inventory['Exp_Date'];
 		if (array_key_exists("Zone_Id",$inventory)){
 			$zone=zoneOutput($inventory);
 			$inventoryArr['zone']=$zone;
 		}
 		if (array_key_exists("Medicine_Id",$inventory)){
-			$zone=medicineOutput($inventory);
-			$inventoryArr['zone']=$zone;
+			$medicine=medicineOutput($inventory);
+			$inventoryArr['medicine']=$medicine;
 		}
-			
-			$inventoryArr[]=$inventory[];
+		return $inventoryArr;
 	}
