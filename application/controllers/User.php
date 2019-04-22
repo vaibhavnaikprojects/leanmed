@@ -7,7 +7,7 @@
 			}
 			else if($this->UserModel->system_auth(true,true)==true){
 				$resp=$this->UserModel->getAllUsers();
-				json_output($resp['status'],$resp);
+				json_output(200,allUsersOutput($resp));
 			}
 		}
 
@@ -16,9 +16,9 @@
 			if($method!='GET'){
 				json_output(400,array('status' => 400,'message' => 'Bad request.'));
 			}
-			else if($this->UserModel->system_auth(true,true)==true){
+			else if($this->UserModel->system_auth(true,false)==true){
 				$resp=$this->UserModel->getUserById($id);
-				json_output($resp['status'],$resp);
+				json_output(200,userOutput($resp));
 			}
 		}
 
@@ -29,7 +29,7 @@
 			}
 			else if($this->UserModel->system_auth(false,false)==true){
 				$resp=$this->UserModel->getZones();
-				json_output(200,$resp);
+				json_output(200,allZoneOutput($resp));
 			}
 		}
 
@@ -40,7 +40,7 @@
 			}
 			else if($this->UserModel->system_auth(true,false)==true){
 				$resp=$this->UserModel->getZoneById($id);
-				json_output($resp['status'],$resp);
+				json_output(200,zoneOutput($resp));
 			}
 		}
 
@@ -51,7 +51,7 @@
 			}
 			else if($this->UserModel->system_auth(false,false)==true){
 				$resp=$this->UserModel->getZonesByCountry($country);
-				json_output(200,$resp);
+				json_output(200,allZoneOutput($resp));
 			}
 		}
 
@@ -61,8 +61,9 @@
 				json_output(400,array('status' => 400, 'message' => 'Bad Request'));
 			}
 			else if($this->UserModel->system_auth(false,false)==true){
-				$response=$this->user_model->login($_REQUEST['username'],$_REQUEST['cred']);
-				json_output($response['status'],$response);
+				$jsonArray = json_decode(file_get_contents('php://input'),true);
+				$response=$this->UserModel->login($jsonArray);
+				json_output(200,$response);
 			}
 		}
 
@@ -71,9 +72,10 @@
 			if ($method!='POST') {
 				json_output(400,array('status' => 400, 'message' => 'Bad Request'));
 			}
-			else{
-				$response=$this->user_model->register();
-				json_output($response['status'],$response);
+			else if($this->UserModel->system_auth(false,false)==true){
+				$jsonArray = json_decode(file_get_contents('php://input'),true);
+				$response=$this->UserModel->registerUser($jsonArray);
+				json_output(200,$response);
 			}
 		}
 
