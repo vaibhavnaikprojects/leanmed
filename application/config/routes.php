@@ -21,7 +21,7 @@ $route['api/zones']['get'] = 'user/zones';
 $route['api/zones/(:any)']['get'] = 'user/zoneDetail/$1';
 $route['api/zones/countries']['get'] = 'user/zones';
 $route['api/zones/countries/(:any)']['get'] = 'user/zoneByCountry/$1';
-
+$route['api/inventory']['get'] = 'inventory/all';
 $route['api/inventory/(:any)']['get'] = 'inventory/index/$1';
 
 
