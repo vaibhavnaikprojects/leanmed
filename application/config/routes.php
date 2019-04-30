@@ -29,6 +29,7 @@ $route['api/inventory/(:any)']['get'] = 'inventory/index/$1';
 
 $route['api/orders']['get'] = 'recdon/allPatients';
 $route['api/orders/(:any)']['get'] = 'recdon/patientDetails/$1';
+$route['api/requests/(:any)']['get'] = 'recdon/getRequestsfromZone/$1';
 
 
 

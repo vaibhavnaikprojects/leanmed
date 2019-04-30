@@ -18,4 +18,8 @@
 			$this->db->join('medicine AS med', 'med.Medicine_id = req.Medicine_id');
 			return $this->db->get()->result_array();
 		}
+
+		public function getRequestForZone($zoneId){
+			return $this->db->select('*')->from('request')->join('inventory','request.Inventory_Id = inventory.Inventory_Id')->join('medicine','inventory.Medicine_Id=medicine.Medicine_Id')->where('inventory.Zone_Id =', $zoneId)->get()->result_array();
+		}
 	}

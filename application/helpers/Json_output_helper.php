@@ -18,20 +18,34 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 	function userOutput($user){
 		$userArr=array();
-		$userArr['userName']=$user['User_Name'];
-		$userArr['emailId']=$user['User_Email'];
-		$userArr['leanIDF']=$user['LeanId_F'];
-		$userArr['leanIDAddress']=$user['IDLeanF_Address'];
-		$userArr['identity']=$user['Identity_Card'];
-		$userArr['userAddress']=$user['User_Address'];
-		$userArr['city']=$user['User_City'];
-		$userArr['state']=$user['User_State'];
-		$userArr['country']=$user['User_Country'];
-		$userArr['type']=$user['User_Type'];
-		$userArr['userStatus']=$user['User_Status'];
-		$userArr['languagePref']=$user['Language_Pref'];
-		$userArr['zone']=zoneOutput($user);
-		$userArr['contacts']=$user['Phone'];
+		if (array_key_exists("User_Name",$user))
+			$userArr['userName']=$user['User_Name'];
+		if (array_key_exists("User_Email",$user))
+			$userArr['emailId']=$user['User_Email'];
+		if (array_key_exists("LeanId_F",$user))
+			$userArr['leanIDF']=$user['LeanId_F'];
+		if (array_key_exists("IDLeanF_Address",$user))
+			$userArr['leanIDAddress']=$user['IDLeanF_Address'];
+		if (array_key_exists("Identity_Card",$user))
+			$userArr['identity']=$user['Identity_Card'];
+		if (array_key_exists("User_Address",$user))
+			$userArr['userAddress']=$user['User_Address'];
+		if (array_key_exists("User_City",$user))
+			$userArr['city']=$user['User_City'];
+		if (array_key_exists("User_State",$user))
+			$userArr['state']=$user['User_State'];
+		if (array_key_exists("User_Country",$user))
+			$userArr['country']=$user['User_Country'];
+		if (array_key_exists("User_Type",$user))
+			$userArr['type']=$user['User_Type'];
+		if (array_key_exists("User_Status",$user))
+			$userArr['userStatus']=$user['User_Status'];
+		if (array_key_exists("Language_Pref",$user))
+			$userArr['languagePref']=$user['Language_Pref'];
+		if (array_key_exists("Zone_Id",$user))
+			$userArr['zone']=zoneOutput($user);
+		if (array_key_exists("Phone",$user))
+			$userArr['contacts']=$user['Phone'];
 		return $userArr;
 	}
 	function allZoneOutput($zones){
@@ -98,4 +112,38 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			$inventoryArr['medicine']=$medicine;
 		}
 		return $inventoryArr;
+	}
+
+	function requestsOutput($requestsObjs){
+		$requests=array();
+		foreach ($requestsObjs as $request) {
+		    $requests[]=requestOutput($request);
+		}
+		return $requests;
+	}
+	function requestOutput($request){
+		$requestArr=array();
+		if (array_key_exists("request_Id",$request))
+			$requestArr['requestId']=$request['request_Id'];
+		if (array_key_exists("Inventory_Id",$request))
+			$requestArr['inventory']=inventoryOutput($request);
+		if (array_key_exists("Quantity",$request))
+			$requestArr['quantity']=$request['Quantity'];
+		if (array_key_exists("Zone_Id",$request))
+			$requestArr['zone']=zoneOutput($request);
+		if (array_key_exists("Quantity",$request))
+			$requestArr['status']=$request['Status'];
+		if (array_key_exists("Comments",$request))
+			$requestArr['comments']=$request['Comments'];
+		if (array_key_exists("Order_Id",$request))
+			$requestArr['orderId']=$request['Order_Id'];
+		if (array_key_exists("Created_date",$request))
+			$requestArr['createdDate']=$request['Created_date'];
+		if (array_key_exists("Modified_Date",$request))
+			$requestArr['modifiedDate']=$request['Modified_Date'];
+		if (array_key_exists("Created_User",$request))
+			$requestArr['createdUser']=$request['Created_User'];
+		if (array_key_exists("Accepted_User",$request))
+			$requestArr['acceptedUser']=$request['Accepted_User'];
+		return $requestArr;
 	}

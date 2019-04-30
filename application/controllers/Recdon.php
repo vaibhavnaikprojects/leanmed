@@ -21,4 +21,15 @@
 				json_output(200,$resp);
 			}
 		}
+
+		public function getRequestsfromZone($zoneId){
+			$method=$_SERVER['REQUEST_METHOD'];
+			if($method!='GET'){
+				json_output(400,array('status' => 400,'message' => 'Bad request.'));
+			}
+			else if($this->UserModel->system_auth(true,false)==true){
+				$resp=$this->RecdonModel->getRequestForZone($zoneId);
+				json_output(200,requestsOutput($resp));
+			}
+		}
 	}
