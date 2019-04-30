@@ -21,7 +21,28 @@
 				json_output(200,userOutput($resp));
 			}
 		}
+		public function userByStatus($id){
+			$method=$_SERVER['REQUEST_METHOD'];
+			if($method!='GET'){
+				json_output(400,array('status' => 400,'message' => 'Bad request.'));
+			}
+			else if($this->UserModel->system_auth(true,true)==true){
+				$resp=$this->UserModel->getUsersByStatus($id);
+				json_output(200,$resp);
+			}
+		}
 
+		public function userByStatusByName($query){
+			$method=$_SERVER['REQUEST_METHOD'];
+			if($method!='GET'){
+				json_output(400,array('status' => 400,'message' => 'Bad request.'));
+			}
+			else if($this->UserModel->system_auth(true,true)==true){
+				$resp=$this->UserModel->userByStatusByName($query);
+				json_output(200,$resp);
+			}
+		}
+		
 		public function zones(){
 			$method=$_SERVER['REQUEST_METHOD'];
 			if($method!='GET'){
@@ -75,6 +96,18 @@
 			else if($this->UserModel->system_auth(false,false)==true){
 				$jsonArray = json_decode(file_get_contents('php://input'),true);
 				$response=$this->UserModel->registerUser($jsonArray);
+				json_output(200,$response);
+			}
+		}
+
+		public function updateuserstatus(){
+			$method=$_SERVER['REQUEST_METHOD'];
+			if ($method!='POST') {
+				json_output(400,array('status' => 400, 'message' => 'Bad Request'));
+			}
+			else if($this->UserModel->system_auth(true,true)==true){
+				$jsonArray = json_decode(file_get_contents('php://input'),true);
+				$response=$this->UserModel->updateuserstatus($jsonArray);
 				json_output(200,$response);
 			}
 		}

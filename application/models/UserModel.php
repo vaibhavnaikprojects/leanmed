@@ -17,7 +17,7 @@
 			$users_id  = $this->input->get_request_header('User-ID', TRUE);
         	$token     = $this->input->get_request_header('Authorization', TRUE);
         	$q= $this->db->get_where('users',array('User_Email' => $users_id,'Password' => $token)) -> row_array();
-        	if($q == "")
+        	if($q == "" || $q['User_Status']!=1)
         		return json_output(401,array('status' => 401,'message' => 'Unauthorized.'));	
         	else{
         		if($adminCheck==true && $q['User_Type']==3)
@@ -70,7 +70,7 @@
 				return array('status' => 204,'message' => 'User not found');		
 			}
 			elseif($query_record['Password']==md5($jsonArray['password'])){
-				if($query_record['User_Status']==2){
+				if($query_record['User_Status']==1){
 					$result= array('status' => 200, 'message' => 'Login Successful','user' => userOutput($query_record));
 					$result['token']=$query_record['Password'];
 					return $result;
@@ -100,7 +100,8 @@
 		}
 		public function getUsersByType($type){
 			$this->db->select('*')->from('users')->join('zone', 'users.Zone_Id = zone.Zone_Id')->where('user_type =', $type);
-			return $this->db->get()->result_array();
+			$query_record=$this->db->get()->result_array();
+			return array('status' => 200, 'message' => 'success','users' => allUsersOutput($query_record));
 		}
 
 		public function getUsersByZone($zone){
@@ -109,8 +110,21 @@
 		}
 		public function getUsersByStatus($status){
 			$this->db->select('*')->from('users')->join('zone', 'users.Zone_Id = zone.Zone_Id')->where('User_Status =', $status);
-			return $this->db->get()->result_array();
+			$query_record=$this->db->get()->result_array();
+			return array('status' => 200, 'message' => 'success','users' => allUsersOutput($query_record));
 		}
+
+		public function userByStatusByName($query){
+			$this->db->select('*')->from('users')->join('zone', 'users.Zone_Id = zone.Zone_Id')->or_like(array('User_email'=>$query,'User_name'=>$query));
+			$query_record=$this->db->get()->result_array();
+			return array('status' => 200, 'message' => 'success','users' => allUsersOutput($query_record));
+		}
+
+		public function updateuserstatus($user){
+			$this->db->set('User_status', $user['userStatus'])->where('User_email', $user['emailId'])->update('users');
+			return true;
+		}
+
 		public function getZones(){
 			return $this->db->select('Zone_Id,Zone_Name')->from('zone')->get()->result_array();
 		}

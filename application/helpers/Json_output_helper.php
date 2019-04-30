@@ -11,7 +11,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	function allUsersOutput($users){
 		$usersArr=array();
 		foreach ($users as $user) {
-		    $userArr[]=userOutput($user);
+		    $usersArr[]=userOutput($user);
 		}
 		return $usersArr;
 	}
