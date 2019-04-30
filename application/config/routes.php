@@ -26,7 +26,12 @@ $route['api/zones/countries']['get'] = 'user/zones';
 $route['api/zones/countries/(:any)']['get'] = 'user/zoneByCountry/$1';
 $route['api/inventory']['get'] = 'inventory/all';
 $route['api/inventory/(:any)']['get'] = 'inventory/index/$1';
-
+$route['api/getdoninventory/(:any)']['get'] = 'inventory/getdonIndex/$1';
+$route['api/orders']["post"] = 'orders/placeOrder';
+$route['api/box']['post'] = 'shipment/placeShipmentOrder';
+$route['api/box/shipments']['post'] = "shipment/getZoneShipments";
+$route['api/box/shipments/medicine']['post'] = "shipment/getBoxContent";
+$route['api/getdoninventory']['post'] = 'getdonInventory/addNewItemToInventory';
 $route['api/orders']['get'] = 'recdon/allPatients';
 $route['api/orders/(:any)']['get'] = 'recdon/patientDetails/$1';
 $route['api/requests/(:any)']['get'] = 'recdon/getRequestsfromZone/$1';
