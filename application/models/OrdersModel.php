@@ -2,51 +2,15 @@
 
 class OrdersModel extends CI_Model
 {
-    /*
-      "patientDetails": {
-                       "Patient_Id":"",
-                       "Patient_FName":"",
-                       "Patient_LName":"",
-                       "Patient_Id":"",
-                       "Patient_DOB":"",
-                       "Patient_Contact":"",
-                       "Patient_Email":"",
-                       "Patient_Address":"",
-                       "Patient_State":"",
-                       "Patient_City":"",
-                       "Patient_Country":""
-                   },
-
-      "orderDetails": {
-
-                       "Order_Date":"",
-                       "Prescription_Image":"",
-                       "Confirmation_Image":"",
-                       "Zone_Id":"",
-                       "User_Email":"",
-                       "Patient_Id":"",
-                       "Prescription_Image":"",
-                       "requests":{"Inventory_Id_1": {
-                                                          "Medicine_Id":quantity_value(int)
-                                                    },
-                                    "Inventory_Id_2": {
-                                                          "Medicine_Id":quantity_value(int)
-                                                    }
-                                  }
-
-
-     */
-
     public function placeUserOrders()
     {
         $orderDetails = json_decode(file_get_contents('php://input'), true);
-//        return array('status' => 200, 'message' => $orderDetails);
         $this->beginTransaction();
-        $patientID = $this->addPatientDetailsToPatients($orderDetails["patientDetails"]);
-        $orderDetails["orderDetails"]["Patient_Id"] = $patientID;
-        $this->addOrderDetailToOrder($orderDetails["orderDetails"]);
+        $patientID = $this->addPatientDetailsToPatients($orderDetails["patient"]);
+        $orderDetails["patientId"] = $patientID;
+        $orderDetails["orderId"]=$this->addOrderDetailToOrder($orderDetails);
         $this->updateRequestTables($orderDetails);
-        return $this->completeTransaction($patientID);
+        return $this->completeTransaction($orderDetails["orderId"]);
 
 
     }
@@ -54,7 +18,7 @@ class OrdersModel extends CI_Model
     private function addPatientDetailsToPatients($patientDetails)
     {
         if ($this->isPatientDetailExistInDB($patientDetails)) {
-            return $patientDetails["Patient_Id"];
+            return $patientDetails["patientId"];
         } else {
             $newPatientDetails = $this->getInsertDetails($patientDetails);
             $this->db->insert("patient", $newPatientDetails);
@@ -66,16 +30,16 @@ class OrdersModel extends CI_Model
     {
         $newOrderDetails = $this->getOrderDetails($orderDetails);
         $this->db->insert("orders", $newOrderDetails);
-        $orderDetails["Order_Id"] = $this->getOrderId();
-        $orderDetails["Prescription_Image"] = $this->addImageToServer($orderDetails);
-        $this->updateImageLocation($orderDetails);
+        return $this->getOrderId();
+        //$orderDetails["prescriptionImage"] = $this->addImageToServer($orderDetails);
+        //$this->updateImageLocation($orderDetails);
 
     }
 
     private function isPatientDetailExistInDB($patientDetails)
     {
-        if ($patientDetails["Patient_Id"] != null) {
-            $patId = $patientDetails['Patient_Id'];
+        if ($patientDetails["patientId"] != null) {
+            $patId = $patientDetails['patientId'];
             $this->db->select("*");
             $this->db->from("patient");
             $this->db->where("Patient_Id = $patId");
@@ -91,33 +55,36 @@ class OrdersModel extends CI_Model
 
     private function getInsertDetails($array)
     {
-        $newArray = array();
-        foreach (array_keys($array) as $key) {
-            $newArray[$key] = $array[$key];
-        }
+        $newArray = array("Patient_FName"=>$array["firstName"],
+                       "Patient_LName"=>$array["lastName"],
+                       "Patient_DOB"=>$array["dob"],
+                       "Patient_Contact"=>$array["contact"],
+                       "Patient_Email"=>$array["email"],
+                       "Patient_Address"=>$array["address"],
+                       "Patient_State"=>$array["state"],
+                       "Patient_City"=>$array["city"],
+                       "Patient_Country"=>$array["country"]);
         return $newArray;
     }
 
     private function getOrderDetails($orderDetails)
     {
         $array = array(
-            "Order_Id" => $orderDetails["Order_Id"],
-            "Order_Date" => $orderDetails["Order_Date"],
             "Receiving_Date" => null,
             "Prescription_Image" => "/",
-            "Order_Status" => 2,
+            "Order_Status" => 1,
             "Confirmation_Image" => null,
-            "Zone_Id" => $orderDetails["Zone_Id"],
-            "User_Email" => $orderDetails["User_Email"],
-            "Patient_Id" => $orderDetails["Patient_Id"]
+            "Zone_Id" => $orderDetails["createdUser"]["zone"]["zoneId"],
+            "User_Email" => $orderDetails["createdUser"]["emailId"],
+            "Patient_Id" => $orderDetails["patientId"]
         );
         return $array;
     }
 
     private function updateRequestTables($orderDetails)
     {
-        foreach (array_keys($orderDetails["orderDetails"]["requests"]) as $inventoryID) {
-            $insertDetails = $this->getRequestDetails($orderDetails, $inventoryID);
+        foreach ($orderDetails["requests"] as $request) {
+            $insertDetails = $this->getRequestDetails($orderDetails, $request);
             $this->db->insert("request", $insertDetails);
 //            $this->updateInventoryTable($orderDetails["orderDetails"][$inventoryID], $inventoryID);
         }
@@ -134,19 +101,17 @@ class OrdersModel extends CI_Model
 
     }
 
-    private function getRequestDetails($orderDetails, $inventoryID)
+    private function getRequestDetails($orderDetails, $request)
     {
         $array = array(
-            "Medicine_Id" => $orderDetails["orderDetails"]["requests"][$inventoryID]["Medicine_Id"],
-            "Order_Id" => $orderDetails["orderDetails"]["Order_Id"],
+            "Order_Id" => $orderDetails["orderId"],
+            "Inventory_Id" =>$request["inventory"]["inventoryId"],
             "Comments" => null,
-            "Zone_Id" => $orderDetails["orderDetails"]["Zone_Id"],
-            "Status" => 2,
-            "Created_date" => $orderDetails["orderDetails"]["Order_Date"],
-            "Modified_Date" => $orderDetails["orderDetails"]["Order_Date"],
-            "Created_User" => $orderDetails["orderDetails"]["User_Email"],
+            "Zone_Id" => $orderDetails["createdUser"]["zone"]["zoneId"],
+            "Status" => 1,
+            "Created_User" => $orderDetails["createdUser"]["emailId"],
             "Accepted_User" => null,
-            "Quantity" => $orderDetails["orderDetails"]["requests"][$inventoryID]["Quantity"]
+            "Quantity" => $request["quantity"]
         );
         return $array;
     }
@@ -196,7 +161,7 @@ class OrdersModel extends CI_Model
         $this->db->trans_strict(true); # See Note 01. If you wish can remove as well
     }
 
-    private function completeTransaction($patientID)
+    private function completeTransaction($orderId)
     {
         if ($this->db->trans_status() === false) {
             # Something went wrong.
@@ -207,7 +172,7 @@ class OrdersModel extends CI_Model
             # Everything is Perfect.
             # Committing data to the database.
             $this->db->trans_commit();
-            return array('status' => 200, 'message' => 'success', "Patient_Id"=>$patientID);
+            return array('status' => 200, 'message' => 'success', "orderId"=>$orderId);
         }
     }
 
