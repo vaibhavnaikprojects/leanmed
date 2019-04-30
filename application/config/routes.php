@@ -27,6 +27,8 @@ $route['api/zones/countries/(:any)']['get'] = 'user/zoneByCountry/$1';
 $route['api/inventory']['get'] = 'inventory/all';
 $route['api/inventory/(:any)']['get'] = 'inventory/index/$1';
 
+$route['api/orders']['get'] = 'recdon/allPatients';
+$route['api/orders/(:any)']['get'] = 'recdon/patientDetails/$1';
 
 
 
